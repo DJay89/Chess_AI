@@ -13,7 +13,7 @@ public class GameState {
 	
 	int[] currentState;
 	
-	//default constructor for generating a GameState in the standart chess starting position
+	//default constructor for generating a GameState in the standard chess starting position
 	public GameState() {
 		currentState = new int[256];
 		
@@ -54,24 +54,36 @@ public class GameState {
 		//black queen
 		currentState[115]=10;
 		
-		/* 
-		 * Testing that the starting gamestate is correct
-		 *  
-		for(int i = 112; i < 120; i++) {
-			System.out.print(" " + currentState[i]);
-		}
-		System.out.println();
-		for(int i = 96; i < 104; i++) {
-			System.out.print(" " + currentState[i]);
-		}
-		System.out.println();
-		for(int i = 16; i < 24; i++) {
-			System.out.print(" " + currentState[i]);
-		}
-		System.out.println();
-		for(int i = 0; i < 8; i++) {
-			System.out.print(" " + currentState[i]);
-		} */
+//		//Testing that the starting gamestate is correct 
+//		for(int i = 0; i < currentState.length; i++) {
+//			if(i%16 == 0) {
+//				System.out.println();
+//			}
+//			System.out.print(" " + currentState[i]);
+//		}
 	}
 	
+	public int[] getCurrentState() {
+		return currentState;
+	}
+	
+	public int getPieceType(int x, int y) {
+		return currentState[y*16+x];
+	}
+	
+	public int getX(int i) {
+		return i%16;
+	}
+	
+	public int getY(int i) {
+		return i/16;
+	}
+	
+	public boolean outOfBoard(int i) {
+		if(((i >> 3) & 1) == 1 || ((i >> 7) & 1) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
