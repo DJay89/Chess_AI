@@ -86,4 +86,8 @@ public class GameState {
 			return false;
 		}
 	}
+	
+	public int checkField(int index){
+		return currentState[index];
+	}
 }
