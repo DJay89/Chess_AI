@@ -67,6 +67,10 @@ public class GameState {
 		return currentState;
 	}
 	
+	public int getField(int index) {
+		return currentState[index];
+	}
+	
 	public int getPieceType(int x, int y) {
 		return currentState[y*16+x];
 	}
