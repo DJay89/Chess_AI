@@ -105,34 +105,22 @@ public class GameState {
 			System.out.print("[ " + (7-repeat) + "]   ");
 
 			for(int i = 112-bonus; i < 120-bonus; i++){
-
 				if (currentState[i] < 10)
 					System.out.print("[ " + currentState[i] + "]");
-
 				if (currentState[i] > 9)
 					System.out.print("[" + currentState[i] + "]");
-
 			}
-
+			
 			System.out.print("\n");
-			
-			if(repeat == 7){
-				
+			if(repeat == 7){	
 				System.out.print("\n       ");
-				
-				for(int i = 0; i < 8; i++){
-					
-					System.out.print("[ " + i + "]");
-					
-				}
-				
+				for(int i = 0; i < 8; i++){	
+					System.out.print("[ " + i + "]");	
+				}	
 			}
-			
 			repeat++;
 			bonus += 16;
-
 		}
-		
 	}
 
 }
