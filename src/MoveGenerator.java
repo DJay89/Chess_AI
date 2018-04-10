@@ -4,101 +4,128 @@ public class MoveGenerator {
 
 	GameState state;
 
-	MoveGenerator(GameState state){
+	MoveGenerator(GameState state) {
 
 		this.state = state;
 
 	}
 
-	public ArrayList<MoveType> moveGen(int index){
+	public ArrayList<MoveType> moveGen(int index) {
 
 		ArrayList<MoveType> result = new ArrayList<MoveType>();
 
-		switch(state.checkField(index)){
+		switch (state.checkField(index)) {
 
-		case (1) :	//White Pawn 
+		case (1): // White Pawn
 
-			break;	
+			int[] WPawn = { 16, 15, 17 };
 
-		case (2) : //Black Pawn
-
-			break;
-
-		case (3) : //White Knight
+			for (int i : WPawn)
+				result.addAll(moveWPawn(i, index, result));
 
 			break;
 
-		case (4) : //Black Knight
+		case (2): // Black Pawn
+
+			int[] BPawn = { -16, -15, -17 };
+
+			for (int i : BPawn)
+				result.addAll(moveBPawn(i, index, result));
 
 			break;
 
-		case (5) : //White Bishop
+		case (3): // White Knight
+
+			int[] WKnight = { 33, -33, 31, -31, 18, -18, -14, 14 };
+
+			for (int i : WKnight)
+				result.addAll(moveWKnight(i, index, result));
 
 			break;
 
-		case (6) : //Black Bishop
+		case (4): // Black Knight
+
+			int[] BKnight = { 33, -33, 31, -31, 18, -18, -14, 14 };
+
+			for (int i : BKnight)
+				result.addAll(moveBKnight(i, index, result));
 
 			break;
 
-		case (7) : //White Rook
+		case (5): // White Bishop
 
-			int[] WRook = {16, -16, 1, -1};
+			int[] WBishop = { 15, 17, -15, -17 };
 
-		for (int i : WRook)
-			result.addAll(moveWRook(i, index, result));	
+			for (int i : WBishop)
+				result.addAll(moveWBishop(i, index, result));
 
-		break;
+			break;
 
-		case (8) : //Black Rook
+		case (6): // Black Bishop
 
-			int[] BRook = {16, -16, 1, -1};
+			int[] BBishop = { -15, -17, 15, 17 };
 
-		for (int i : BRook)
-			result.addAll(moveBRook(i, index, result));	
+			for (int i : BBishop)
+				result.addAll(moveBBishop(i, index, result));
 
+			break;
 
-		break;
+		case (7): // White Rook
 
-		case (9) : //White Queen
+			int[] WRook = { 16, -16, 1, -1 };
 
-			int[] WQueen = {16, -16, 1, -1, 15, 17, -15, -17};
+			for (int i : WRook)
+				result.addAll(moveWRook(i, index, result));
 
-		for (int i : WQueen)
-			result.addAll(moveWQueen(i, index, result));	
+			break;
 
-		break;
+		case (8): // Black Rook
 
-		case (10) : //Black Queen
+			int[] BRook = { 16, -16, 1, -1 };
 
-			int[] BQueen = {16, -16, 1, -1, 15, 17, -15, -17};
+			for (int i : BRook)
+				result.addAll(moveBRook(i, index, result));
 
-		for (int i : BQueen)
-			result.addAll(moveBQueen(i, index, result));	
+			break;
 
+		case (9): // White Queen
 
-		break;
+			int[] WQueen = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
-		case (11) : //White King
+			for (int i : WQueen)
+				result.addAll(moveWQueen(i, index, result));
 
-			int[] WKing = {16, -16, 1, -1, 15, 17, -15, -17};
+			break;
 
-		for (int i : WKing)
-			result.addAll(moveWKing(i, index, result));	
+		case (10): // Black Queen
 
+			int[] BQueen = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
-		break;
+			for (int i : BQueen)
+				result.addAll(moveBQueen(i, index, result));
 
-		case (12) : //Black King
+			break;
 
-			int[] BKing = {16, -16, 1, -1, 15, 17, -15, -17};
+		case (11): // White King
 
-		for (int i : BKing)
-			result.addAll(moveBKing(i, index, result));	
+			int[] WKing = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
+			for (int i : WKing)
+				result.addAll(moveWKing(i, index, result));
 
-		break;
+			break;
 
-		default : break; //When null
+		case (12): // Black King
+
+			int[] BKing = { 16, -16, 1, -1, 15, 17, -15, -17 };
+
+			for (int i : BKing)
+				result.addAll(moveBKing(i, index, result));
+
+			break;
+
+		default:
+			break; // When null
 
 		}
 
@@ -106,107 +133,230 @@ public class MoveGenerator {
 
 	}
 
-	private ArrayList<MoveType> moveWRook(int move, int index, ArrayList<MoveType> result){
+	private ArrayList<MoveType> moveWPawn(int move, int index, ArrayList<MoveType> result) {
 
-		while(state.outOfBoard(index+move) == false){
+		while (state.outOfBoard(index + move) == false) {
 
-			if (state.checkField(index+move) == 0){
-				result.add(new MoveType(index+move, index, false, 7, state.getField(index)));
-				moveWRook(move, index+move, result);
+			if (move == 16) {
+				if (state.checkField(index + move) == 0) {
+					result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+					moveWPawn(move, index + move, result);
+				}
 			}
 
-			if (state.checkField(index+move) != 0 && state.checkField(index+move)%2 == 0)
-				result.add(new MoveType(index+move, index, false, 7, state.getField(index)));
+			else {
+				if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
+					result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+					moveWPawn(move, index + move, result);
+				}
+			}
+
+		}
+
+		return result;
+	}
+
+	private ArrayList<MoveType> moveBPawn(int move, int index, ArrayList<MoveType> result) {
+
+		while (state.outOfBoard(index + move) == false) {
+
+			if (move == -16) {
+				if (state.checkField(index + move) == 0) {
+					result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+					moveBPawn(move, index + move, result);
+				}
+			}
+
+			else {
+				if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
+					result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+					moveBPawn(move, index + move, result);
+				}
+			}
+
+		}
+
+		return result;
+	}
+	
+	private ArrayList<MoveType> moveWKnight(int move, int index, ArrayList<MoveType> result) {
+
+		while (state.outOfBoard(index + move) == false) {
+
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveWKnight(move, index + move, result);
+			}
+
+			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveWKnight(move, index + move, result);
+			}
+
+		}
+
+		return result;
+
+	}
+	
+	private ArrayList<MoveType> moveBKnight(int move, int index, ArrayList<MoveType> result) {
+
+		while (state.outOfBoard(index + move) == false) {
+
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveBKnight(move, index + move, result);
+			}
+
+			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveBKnight(move, index + move, result);
+			}
+
 		}
 
 		return result;
 
 	}
 
-	private ArrayList<MoveType> moveBRook(int move, int index, ArrayList<MoveType> result){
+	private ArrayList<MoveType> moveWBishop(int move, int index, ArrayList<MoveType> result) {
 
-		while(state.outOfBoard(index+move) == false){
+		while (state.outOfBoard(index + move) == false) {
 
-			if (state.checkField(index+move) == 0){
-				result.add(new MoveType(index+move, index, false, 8, state.getField(index)));
-				return moveBRook(move, index+move, result);
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveWBishop(move, index + move, result);
 			}
 
-			if (state.checkField(index+move) != 0 && state.checkField(index+move)%2 != 0)
-				result.add(new MoveType(index+move, index, false, 8, state.getField(index)));
-				return result;
-		}
-
-
-		return result;
-
-	}
-
-	private ArrayList<MoveType> moveWQueen(int move, int index, ArrayList<MoveType> result){
-
-		while(state.outOfBoard(index+move) == false){
-
-			if (state.checkField(index+move) == 0){
-				result.add(new MoveType(index+move, index, false, 9, state.getField(index)));
-				return moveWQueen(move, index+move, result);
+			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveWBishop(move, index + move, result);
 			}
 
-			if (state.checkField(index+move) != 0 && state.checkField(index+move)%2 == 0)
-				result.add(new MoveType(index+move, index, false, 9, state.getField(index)));
-				return result;
 		}
 
 		return result;
 
 	}
 
-	private ArrayList<MoveType> moveBQueen(int move, int index, ArrayList<MoveType> result){
+	private ArrayList<MoveType> moveBBishop(int move, int index, ArrayList<MoveType> result) {
 
-		while(state.outOfBoard(index+move) == false){
+		while (state.outOfBoard(index + move) == false) {
 
-			if (state.checkField(index+move) == 0){
-				result.add(new MoveType(index+move, index, false, 10, state.getField(index)));
-				return moveBQueen(move, index+move, result);
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveBBishop(move, index + move, result);
 			}
 
-			if (state.checkField(index+move) != 0 && state.checkField(index+move)%2 != 0)
-				result.add(new MoveType(index+move, index, false, 10, state.getField(index)));
+			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveBBishop(move, index + move, result);
+			}
+
+		}
+
+		return result;
+
+	}
+
+	private ArrayList<MoveType> moveWRook(int move, int index, ArrayList<MoveType> result) {
+
+		while (state.outOfBoard(index + move) == false) {
+
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+				moveWRook(move, index + move, result);
+			}
+
+			if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0)
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+		}
+
+		return result;
+
+	}
+
+	private ArrayList<MoveType> moveBRook(int move, int index, ArrayList<MoveType> result) {
+
+		while (state.outOfBoard(index + move) == false) {
+
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 8, state.getField(index)));
+				return moveBRook(move, index + move, result);
+			}
+
+			if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 != 0)
+				result.add(new MoveType(index + move, index, false, 8, state.getField(index)));
 			return result;
 		}
 
-
 		return result;
 
 	}
 
-	private ArrayList<MoveType> moveWKing(int move, int index, ArrayList<MoveType> result){
+	private ArrayList<MoveType> moveWQueen(int move, int index, ArrayList<MoveType> result) {
 
-		while(state.outOfBoard(index+move) == false){
+		while (state.outOfBoard(index + move) == false) {
 
-			if (state.checkField(index+move) == 0){
-				result.add(new MoveType(index+move, index, false, 11, state.getField(index)));
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 9, state.getField(index)));
+				return moveWQueen(move, index + move, result);
 			}
 
-			if (state.checkField(index+move) != 0 && state.checkField(index+move)%2 == 0)
-				result.add(new MoveType(index+move, index, false, 11, state.getField(index)));
+			if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0)
+				result.add(new MoveType(index + move, index, false, 9, state.getField(index)));
+			return result;
 		}
 
 		return result;
 
 	}
 
-	private ArrayList<MoveType> moveBKing(int move, int index, ArrayList<MoveType> result){
+	private ArrayList<MoveType> moveBQueen(int move, int index, ArrayList<MoveType> result) {
 
-		while(state.outOfBoard(index+move) == false){
+		while (state.outOfBoard(index + move) == false) {
 
-			if (state.checkField(index+move) == 0){
-				result.add(new MoveType(index+move, index, false, 7, state.getField(index)));
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 10, state.getField(index)));
+				return moveBQueen(move, index + move, result);
 			}
 
-			if (state.checkField(index+move) != 0 && state.checkField(index+move)%2 != 0)
-				result.add(new MoveType(index+move, index, false, 7, state.getField(index)));
+			if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 != 0)
+				result.add(new MoveType(index + move, index, false, 10, state.getField(index)));
+			return result;
 		}
 
+		return result;
+
+	}
+
+	private ArrayList<MoveType> moveWKing(int move, int index, ArrayList<MoveType> result) {
+
+		while (state.outOfBoard(index + move) == false) {
+
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 11, state.getField(index)));
+			}
+
+			if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0)
+				result.add(new MoveType(index + move, index, false, 11, state.getField(index)));
+		}
+
+		return result;
+
+	}
+
+	private ArrayList<MoveType> moveBKing(int move, int index, ArrayList<MoveType> result) {
+
+		while (state.outOfBoard(index + move) == false) {
+
+			if (state.checkField(index + move) == 0) {
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+			}
+
+			if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 != 0)
+				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
+		}
 
 		return result;
 
