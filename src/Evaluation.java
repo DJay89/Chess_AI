@@ -56,20 +56,39 @@ public class Evaluation {
 		
 		switch(pieceType) {
 		case 1:
+			break;
 		case 2:
+			break;
 		case 3:
+			break;
 		case 4:
+			break;
 		case 5:
+			break;
 		case 6:
-		case 7:
-		case 8:
+			break;
+		case 7: case 8: return 500*coverForward(position, 0);	
 		case 9:
+			break;
 		case 10:
-		case 11:
-		case 12:
+			break;
+		case 11: case 12: return 10000;
+		default:
 		}
-		
 		return 0;
+	}
+	
+	private int coverForward(int position, int coveredFields) {
+		
+		
+		if(!gamestate.outOfBoard(position+16)) {
+			coveredFields++;
+			
+			if(gamestate.checkField(position+16) == 0) {
+				coveredFields = coverForward(position+16, coveredFields);
+			}
+		}
+		return coveredFields;	
 	}
 	
 }
