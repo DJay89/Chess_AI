@@ -8,9 +8,9 @@ public class HelloWorld {
 		GameState myState = new GameState();
 		myState.printBoard();
 		
-		MoveGenerator mg = new MoveGenerator(myState);
-		mg.moveGen(20);
-		System.out.println(mg.getResult());
+		//MoveGenerator mg = new MoveGenerator(myState);
+		//mg.moveGen(20);
+		//System.out.println(mg.getResult());
 
 	}
 
