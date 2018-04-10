@@ -18,9 +18,15 @@ public class MoveGenerator {
 
 		case (1): // White Pawn
 
-			int[] WPawn = { 16, 15, 17 };
+			int[] WPawn = { 16, 15, 17 }; // Possible move paths
 
-			for (int i : WPawn)
+			for (int i : WPawn) // For each piece move path
+
+				/*
+				 * Add all generated-(with relevant moveGen method)-moves to results. Takes the
+				 * move path, the index of the current position on the board, and the results.
+				 */
+
 				result.addAll(moveWPawn(i, index, result));
 
 			break;
@@ -135,25 +141,24 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> moveWPawn(int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		while (state.outOfBoard(index + move) == false) { // While move is on the board
 
-			if (move == 16) {
-				if (state.checkField(index + move) == 0) {
-					result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
-					moveWPawn(move, index + move, result);
+			if (move == 16) { // If the move path is forward
+				if (state.checkField(index + move) == 0) { // The field have to be empty
+					result.add(new MoveType(index + move, index, false, 7, state.getField(index))); // Generate move
+					moveWPawn(move, index + move, result); // Recursive for all the moves in a given path
 				}
 			}
 
-			else {
+			else { // This move path require a enemy piece to be valid
+					// When the field is occupied and is an enemy piece
 				if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
-					result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
-					moveWPawn(move, index + move, result);
+					result.add(new MoveType(index + move, index, false, 7, state.getField(index))); // Generate move
+					// Not recursive - a piece blocks the path/can't move when conquering a piece
 				}
 			}
-
 		}
-
-		return result;
+		return result; // Return path moves
 	}
 
 	private ArrayList<MoveType> moveBPawn(int move, int index, ArrayList<MoveType> result) {
@@ -170,7 +175,6 @@ public class MoveGenerator {
 			else {
 				if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
 					result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
-					moveBPawn(move, index + move, result);
 				}
 			}
 
@@ -178,7 +182,7 @@ public class MoveGenerator {
 
 		return result;
 	}
-	
+
 	private ArrayList<MoveType> moveWKnight(int move, int index, ArrayList<MoveType> result) {
 
 		while (state.outOfBoard(index + move) == false) {
@@ -190,7 +194,6 @@ public class MoveGenerator {
 
 			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
 				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
-				moveWKnight(move, index + move, result);
 			}
 
 		}
@@ -198,7 +201,7 @@ public class MoveGenerator {
 		return result;
 
 	}
-	
+
 	private ArrayList<MoveType> moveBKnight(int move, int index, ArrayList<MoveType> result) {
 
 		while (state.outOfBoard(index + move) == false) {
@@ -210,7 +213,6 @@ public class MoveGenerator {
 
 			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
 				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
-				moveBKnight(move, index + move, result);
 			}
 
 		}
@@ -230,7 +232,6 @@ public class MoveGenerator {
 
 			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
 				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
-				moveWBishop(move, index + move, result);
 			}
 
 		}
@@ -250,7 +251,6 @@ public class MoveGenerator {
 
 			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
 				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
-				moveBBishop(move, index + move, result);
 			}
 
 		}
