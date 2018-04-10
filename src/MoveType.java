@@ -1,11 +1,11 @@
 
 public class MoveType {
 
-	int newPos;
-	int oldPos;
-	boolean special;
-	int piece;
-	int content;
+	int newPos;			//New position of piece
+	int oldPos;			//Old position of piece
+	boolean special;	//Special move 
+	int piece;			//Piece
+	int content;		//Content of field moving to
 
 	MoveType(int newPos, int oldPos, boolean special, int piece, int content){
 
