@@ -6,12 +6,14 @@ public class MoveGenerator {
 	GameState state;
 
 	ArrayList<MoveType> result = new ArrayList<MoveType>();
-
+ 
 	MoveGenerator(GameState state) {
 		this.state = state;
 	}
 
 	public ArrayList<MoveType> moveGen(int index) {
+		
+		result.clear();
 
 		int piece = state.checkField(index);
 		boolean special = false;
@@ -33,7 +35,7 @@ public class MoveGenerator {
 				 * move path, the index of the current position on the board, and the results.
 				 */
 
-				result.addAll(movePawn(piece, special, i, index, result));
+				result = movePawn(piece, special, i, index, result);
 
 			break;
 
@@ -46,7 +48,7 @@ public class MoveGenerator {
 			}
 
 			for (int i : BPawn)
-				result.addAll(movePawn(piece, special, i, index, result));
+				result = movePawn(piece, special, i, index, result);
 
 			break;
 
@@ -55,7 +57,7 @@ public class MoveGenerator {
 			int[] WKnight = { 33, -33, 31, -31, 18, -18, -14, 14 };
 
 			for (int i : WKnight)
-				result.addAll(moveKnight(piece, i, index, result));
+				result = moveKnight(piece, i, index, result);
 
 			break;
 
@@ -64,7 +66,7 @@ public class MoveGenerator {
 			int[] BKnight = { 33, -33, 31, -31, 18, -18, -14, 14 };
 
 			for (int i : BKnight)
-				result.addAll(moveKnight(piece, i, index, result));
+				result = moveKnight(piece, i, index, result);
 
 			break;
 
@@ -73,7 +75,7 @@ public class MoveGenerator {
 			int[] WBishop = { 15, 17, -15, -17 };
 
 			for (int i : WBishop)
-				result.addAll(moveBishop(piece, i, index, result));
+				result = moveBishop(piece, i, index, result);
 
 			break;
 
@@ -82,7 +84,7 @@ public class MoveGenerator {
 			int[] BBishop = { -15, -17, 15, 17 };
 
 			for (int i : BBishop)
-				result.addAll(moveBishop(piece, i, index, result));
+				result = moveBishop(piece, i, index, result);
 
 			break;
 
@@ -91,8 +93,8 @@ public class MoveGenerator {
 			int[] WRook = { 16, -16, 1, -1 };
 
 			for (int i : WRook)
-				result.addAll(moveWRook(i, index, result));
-
+				result = moveWRook(i, index, result);
+			
 			break;
 
 		case (8): // Black Rook
@@ -100,7 +102,7 @@ public class MoveGenerator {
 			int[] BRook = { 16, -16, 1, -1 };
 
 			for (int i : BRook)
-				result.addAll(moveBRook(i, index, result));
+				result = moveBRook(i, index, result);
 
 			break;
 
@@ -109,7 +111,7 @@ public class MoveGenerator {
 			int[] WQueen = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
 			for (int i : WQueen)
-				result.addAll(moveWQueen(i, index, result));
+				result = moveWQueen(i, index, result);
 
 			break;
 
@@ -118,7 +120,7 @@ public class MoveGenerator {
 			int[] BQueen = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
 			for (int i : BQueen)
-				result.addAll(moveBQueen(i, index, result));
+				result = moveBQueen(i, index, result);
 
 			break;
 
@@ -127,7 +129,7 @@ public class MoveGenerator {
 			int[] WKing = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
 			for (int i : WKing)
-				result.addAll(moveWKing(i, index, result));
+				result = moveWKing(i, index, result);
 
 			break;
 
@@ -136,7 +138,7 @@ public class MoveGenerator {
 			int[] BKing = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
 			for (int i : BKing)
-				result.addAll(moveBKing(i, index, result));
+				result = moveBKing(i, index, result);
 
 			break;
 
@@ -156,7 +158,7 @@ public class MoveGenerator {
 	private ArrayList<MoveType> movePawn(int piece, boolean special, int move, int index, ArrayList<MoveType> result) {
 
 		// While move is on the board
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			// The move path is forward
 			if (move == 16 || move == -16) {
@@ -190,7 +192,7 @@ public class MoveGenerator {
 	// Knight
 	private ArrayList<MoveType> moveKnight(int piece, int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
@@ -206,7 +208,7 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> moveBishop(int piece, int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
@@ -225,7 +227,7 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> moveWRook(int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
 				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
@@ -242,7 +244,7 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> moveBRook(int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
 				result.add(new MoveType(index + move, index, false, 8, state.getField(index)));
@@ -260,7 +262,7 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> moveWQueen(int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
 				result.add(new MoveType(index + move, index, false, 9, state.getField(index)));
@@ -278,7 +280,7 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> moveBQueen(int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
 				result.add(new MoveType(index + move, index, false, 10, state.getField(index)));
@@ -296,7 +298,7 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> moveWKing(int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
 				result.add(new MoveType(index + move, index, false, 11, state.getField(index)));
@@ -312,7 +314,7 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> moveBKing(int move, int index, ArrayList<MoveType> result) {
 
-		while (state.outOfBoard(index + move) == false) {
+		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
 				result.add(new MoveType(index + move, index, false, 7, state.getField(index)));
