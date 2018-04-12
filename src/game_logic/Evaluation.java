@@ -60,68 +60,37 @@ public class Evaluation {
 			break;
 		case 2:
 			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		case 7: case 8: return 500 + 1.5*(coverForward(position, 0)+coverBackward(position, 0)+coverRight(position, 0)+coverLeft(position, 0));	
-		case 9:
-			break;
-		case 10:
-			break;
+			//Knight: 300 + 3.0 * (4-Distance to center)
+		case 3:	case 4: return 0;
+			//Bishop: 300 + 2.0 * Number of covered fields
+		case 5: case 6: return 300 + 2.0*(coverDirection(position, 0, 15)+coverDirection(position, 0, 17)+coverDirection(position, 0, -17)+coverDirection(position, 0, -15));
+			//Rook: 500 + 1.5 * Number of covered fields
+		case 7: case 8: return 500 + 1.5*(coverDirection(position, 0, 16)+coverDirection(position, 0, -16)+coverDirection(position, 0, 1)+coverDirection(position, 0, -1));	
+			//Queen: 900 + 1.0 * Number of covered fields
+		case 9: case 10: return 900 + (coverDirection(position, 0, 16)+coverDirection(position, 0, -16)+coverDirection(position, 0, 1)+coverDirection(position, 0, -1)+coverDirection(position, 0, 15)+coverDirection(position, 0, 17)+coverDirection(position, 0, -17)+coverDirection(position, 0, -15));
+			//King: 10000
 		case 11: case 12: return 10000;
-		default:
 		}
-		return 0;
+		return 123456789;
 	}
-
-	private int coverForward(int position, int coveredFields) {
-
-		if(!gamestate.outOfBoard(position+16)) {
+	
+	/* The following method covers fields in a direction specified by an integer
+	 * up 			=  16
+	 * down			= -16
+	 * left			= -1
+	 * right		=  1
+	 * up-right		=  17
+	 * up-left		=  15
+	 * down-left	= -17
+	 * down-right	= -15
+	 */
+	private int coverDirection(int position, int coveredFields, int direction) {
+		
+		if(!gamestate.outOfBoard(position+direction)) {
 			coveredFields++;
-
-			if(gamestate.checkField(position+16) == 0) {
-				coveredFields = coverForward(position+16, coveredFields);
-			}
-		}
-		return coveredFields;	
-	}
-
-	private int coverBackward(int position, int coveredFields) {
-
-		if(!gamestate.outOfBoard(position-16)) {
-			coveredFields++;
-
-			if(gamestate.checkField(position-16) == 0) {
-				coveredFields = coverBackward(position-16, coveredFields);
-			}
-		}
-		return coveredFields;
-	}
-
-	private int coverRight(int position, int coveredFields) {
-
-		if(!gamestate.outOfBoard(position+1)) {
-			coveredFields++;
-
-			if(gamestate.checkField(position+1) == 0) {
-				coveredFields = coverRight(position+1, coveredFields);
-			}
-		}
-		return coveredFields;
-	}
-
-	private int coverLeft(int position, int coveredFields) {
-
-		if(!gamestate.outOfBoard(position-1)) {
-			coveredFields++;
-
-			if(gamestate.checkField(position-1) == 0) {
-				coveredFields = coverLeft(position-1, coveredFields);
+			
+			if(gamestate.checkField(position+direction) == 0) {
+				coveredFields = coverDirection(position+direction, coveredFields, direction);
 			}
 		}
 		return coveredFields;
