@@ -179,10 +179,14 @@ public class MoveGenerator {
 			else { // This move path require a enemy piece to be valid
 
 				// When the field is occupied and is an enemy piece
-				if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
-					// Generate move
+				if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
 					result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 				}
+				
+				else if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
+					result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				}
+				
 			}
 		}
 
@@ -198,7 +202,11 @@ public class MoveGenerator {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 			}
 
-			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
+			else if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
+				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+			}
+			
+			else if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 			}
 		}
@@ -215,7 +223,11 @@ public class MoveGenerator {
 				moveBishop(piece, move, index + move, result);
 			}
 
-			else if (state.checkField(index + move) != 0 && state.checkField(index + move) % 2 == 0) {
+			else if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
+				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+			}
+			
+			else if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 			}
 
@@ -336,6 +348,4 @@ public class MoveGenerator {
 		this.result = result;
 	}
 	
-	
-
 }
