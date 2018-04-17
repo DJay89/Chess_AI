@@ -170,7 +170,7 @@ public class MoveGenerator {
 				}
 
 				// Standard move
-				else if (state.checkField(index + move) == 0) {
+				if (state.checkField(index + move) == 0) {
 					// Create and add MoveType
 					result.add(new MoveType(index + move, index, special, piece, state.getField(index)));
 				}
@@ -183,7 +183,7 @@ public class MoveGenerator {
 					result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 				}
 				
-				else if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
+				if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
 					result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 				}
 				
@@ -202,11 +202,11 @@ public class MoveGenerator {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 			}
 
-			else if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
+			if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 			}
 			
-			else if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
+			if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 			}
 		}
@@ -223,11 +223,11 @@ public class MoveGenerator {
 				moveBishop(piece, move, index + move, result);
 			}
 
-			else if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
+			if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 			}
 			
-			else if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
+			if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
 				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
 			}
 
