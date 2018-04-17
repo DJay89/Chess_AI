@@ -1,12 +1,9 @@
 package game_logic;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Evaluation {
 
 	private GameState gamestate;
 	private boolean isWhite;
+	private int enemyThreatenedCount = 0; //number of threatened enemy pieces with higher base value
 	private int[] whitePawnRow = {0, 0, -1, 0, 2, 14, 30, 0};
 	private int[] blackPawnRow = {0, 30, 14, 2, 0, -1, 0, 0};
 	private int[] pawnLine = {-2, 0, 3, 4, 5, 1, -2, -2};
@@ -17,11 +14,12 @@ public class Evaluation {
 	}
 
 	public double evaluateState() {
-		if(isWhite) {
-			return standardEvaluation(true)-standardEvaluation(false);
-		} else {
-			return standardEvaluation(false)-standardEvaluation(true);
-		}
+		return standardEvaluation(isWhite)-standardEvaluation(!isWhite);
+		//		if(isWhite) {
+		//			return standardEvaluation(true)-standardEvaluation(false);
+		//		} else {
+		//			return standardEvaluation(false)-standardEvaluation(true);
+		//		}
 	}
 
 	private double standardEvaluation(boolean isWhite) {
@@ -41,6 +39,8 @@ public class Evaluation {
 			}	
 
 		}
+		//TODO evaluate number enemy pieces threatened by lower value pieces and add to pointsum
+		//TODO reset enemyThreatenedCount
 		return pointSum;
 	}
 
@@ -58,24 +58,26 @@ public class Evaluation {
 
 	private double evaluatePiece(int position, int pieceType) {
 		switch(pieceType) {
-			//White Pawn: 100 + whitePawnRow[Row] + PawnLine[Line]*Row/2
+		//White Pawn: 100 + whitePawnRow[Row] + PawnLine[Line]*Row/2
 		case 1: return 100 + whitePawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2);
-			//Black Pawn: 100 + blackPawnRow[Row] + PawnLine[Line]*Row/2
+		//Black Pawn: 100 + blackPawnRow[Row] + PawnLine[Line]*Row/2
 		case 2: return 100 + blackPawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2);
-			//Knight: 300 + 3.0 * (4-Distance to center)
-		case 3:	case 4: return 300 + 2.0*(4-distanceToCenter(position));
-			//Bishop: 300 + 2.0 * Number of covered fields
+		//Knight: 300 + 3.0 * (4-Distance to center)
+		//Check for threatened pieces with higher value than the knight
+		case 3:	case 4: knightThreats(position); 
+						return 300 + 2.0*(4-distanceToCenter(position));
+		//Bishop: 300 + 2.0 * Number of covered fields
 		case 5: case 6: return 300 + 2.0*(coverDirection(position, 0, 15)+coverDirection(position, 0, 17)+coverDirection(position, 0, -17)+coverDirection(position, 0, -15));
-			//Rook: 500 + 1.5 * Number of covered fields
+		//Rook: 500 + 1.5 * Number of covered fields
 		case 7: case 8: return 500 + 1.5*(coverDirection(position, 0, 16)+coverDirection(position, 0, -16)+coverDirection(position, 0, 1)+coverDirection(position, 0, -1));	
-			//Queen: 900 + 1.0 * Number of covered fields
+		//Queen: 900 + 1.0 * Number of covered fields
 		case 9: case 10: return 900 + (coverDirection(position, 0, 16)+coverDirection(position, 0, -16)+coverDirection(position, 0, 1)+coverDirection(position, 0, -1)+coverDirection(position, 0, 15)+coverDirection(position, 0, 17)+coverDirection(position, 0, -17)+coverDirection(position, 0, -15));
-			//King: 10000
+		//King: 10000
 		case 11: case 12: return 10000;
 		default: System.err.println("Undefined piecetype in file Evaluation.java"); return 0;
 		}
 	}
-	
+
 	/* The following method returns a number of covered fields in a direction specified by an integer
 	 * up 			=  16
 	 * down			= -16
@@ -87,17 +89,22 @@ public class Evaluation {
 	 * down-right	= -15
 	 */
 	private int coverDirection(int position, int coveredFields, int direction) {
-		
+
 		if(!gamestate.outOfBoard(position+direction)) {
 			coveredFields++;
-			
+
 			if(gamestate.checkField(position+direction) == 0) {
 				coveredFields = coverDirection(position+direction, coveredFields, direction);
+			} else if(gamestate.checkField(position+direction) > gamestate.checkField(position) && 
+					((isWhite && gamestate.checkField(position+direction)%2 == 0) || 
+					!isWhite && gamestate.checkField(position+direction)%2 == 1)) {
+				//If the covered field is an enemy piece with higher base value count it
+				enemyThreatenedCount++;
 			}
 		}
 		return coveredFields;
 	}
-	
+
 	// The following method returns the knights distance from the center, defined by how many fields the knight can cover from its position
 	private int distanceToCenter(int position) {
 		switch(position) {
@@ -106,7 +113,22 @@ public class Evaluation {
 		case 114: case 115: case 116: case 117: case 2: case 3: case 4: case 5: case 80: case 64: case 48: case 32: case 87: case 71: case 55: case 39: case 97: case 102: case 17: case 22: 	return 2;
 		case 96: case 113: case 118: case 103: case 16: case 1: case 6: case 23: 																												return 3;
 		case 0: case 112: case 119: case 7: 																																					return 4;
-		default: System.err.println("Knight out of bounds in file Evaluation.java"); return 0;
+		default: System.err.println("Knight out of bounds in file Evaluation.java"); 																											return 0;
 		}
+	}
+
+	private void knightThreats(int position) {
+		int[] knightMoves = {33, -33, 31, -31, 18, -18, -14, 14};
+		for(int i = 0; i < knightMoves.length; i++) {
+			if(!gamestate.outOfBoard(position+knightMoves[i]) && (gamestate.checkField(position+knightMoves[i]) > gamestate.checkField(position)) && 
+					(isWhite && gamestate.checkField(position+knightMoves[i])%2 == 0 || 
+					!isWhite && gamestate.checkField(position+knightMoves[i])%2 == 1)){
+					enemyThreatenedCount++;
+			}
+		}
+	}
+	
+	private void pawnThreats(int position) {
+		//TODO enemy pieces of higher value threatened by pawns
 	}
 }
