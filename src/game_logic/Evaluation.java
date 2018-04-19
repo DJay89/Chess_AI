@@ -39,8 +39,10 @@ public class Evaluation {
 			}	
 
 		}
-		//TODO evaluate number enemy pieces threatened by lower value pieces and add to pointsum
-		//TODO reset enemyThreatenedCount
+		
+		//The player should be given points based on how many enemy pieces are threatened by your smaller pieces
+		pointSum+=evaluateThreats();
+
 		return pointSum;
 	}
 
@@ -59,13 +61,13 @@ public class Evaluation {
 	private double evaluatePiece(int position, int pieceType) {
 		switch(pieceType) {
 		//White Pawn: 100 + whitePawnRow[Row] + PawnLine[Line]*Row/2
-		case 1: return 100 + whitePawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2);
+		case 1: pawnThreats(15); pawnThreats(17); return 100 + whitePawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2);
 		//Black Pawn: 100 + blackPawnRow[Row] + PawnLine[Line]*Row/2
-		case 2: return 100 + blackPawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2);
+		case 2: pawnThreats(-15); pawnThreats(-17); return 100 + blackPawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2);
 		//Knight: 300 + 3.0 * (4-Distance to center)
 		//Check for threatened pieces with higher value than the knight
 		case 3:	case 4: knightThreats(position); 
-						return 300 + 2.0*(4-distanceToCenter(position));
+		return 300 + 2.0*(4-distanceToCenter(position));
 		//Bishop: 300 + 2.0 * Number of covered fields
 		case 5: case 6: return 300 + 2.0*(coverDirection(position, 0, 15)+coverDirection(position, 0, 17)+coverDirection(position, 0, -17)+coverDirection(position, 0, -15));
 		//Rook: 500 + 1.5 * Number of covered fields
@@ -93,11 +95,19 @@ public class Evaluation {
 		if(!gamestate.outOfBoard(position+direction)) {
 			coveredFields++;
 
+			/* The integer representation of the pieces are ordered by value,
+			but we need to make sure similar pieces of the two player have
+			the same value for comparison */
+			int tempPieceValue = gamestate.checkField(position);
+			if(tempPieceValue%2 == 1) {
+				tempPieceValue+=1;
+			}
+
 			if(gamestate.checkField(position+direction) == 0) {
 				coveredFields = coverDirection(position+direction, coveredFields, direction);
-			} else if(gamestate.checkField(position+direction) > gamestate.checkField(position) && 
+			} else if(gamestate.checkField(position+direction) > tempPieceValue && 
 					((isWhite && gamestate.checkField(position+direction)%2 == 0) || 
-					!isWhite && gamestate.checkField(position+direction)%2 == 1)) {
+							!isWhite && gamestate.checkField(position+direction)%2 == 1)) {
 				//If the covered field is an enemy piece with higher base value count it
 				enemyThreatenedCount++;
 			}
@@ -113,22 +123,44 @@ public class Evaluation {
 		case 114: case 115: case 116: case 117: case 2: case 3: case 4: case 5: case 80: case 64: case 48: case 32: case 87: case 71: case 55: case 39: case 97: case 102: case 17: case 22: 	return 2;
 		case 96: case 113: case 118: case 103: case 16: case 1: case 6: case 23: 																												return 3;
 		case 0: case 112: case 119: case 7: 																																					return 4;
-		default: System.err.println("Knight out of bounds in file Evaluation.java"); 																											return 0;
+		default: System.err.println("Knight out of bounds in file Evaluation.java"); 																											return 99;
 		}
 	}
 
 	private void knightThreats(int position) {
 		int[] knightMoves = {33, -33, 31, -31, 18, -18, -14, 14};
 		for(int i = 0; i < knightMoves.length; i++) {
-			if(!gamestate.outOfBoard(position+knightMoves[i]) && (gamestate.checkField(position+knightMoves[i]) > gamestate.checkField(position)) && 
+			if(!gamestate.outOfBoard(position+knightMoves[i]) && (gamestate.checkField(position+knightMoves[i]) > 4 && // greater than four, because higher numbered pieces have higher valued that the knight
 					(isWhite && gamestate.checkField(position+knightMoves[i])%2 == 0 || 
-					!isWhite && gamestate.checkField(position+knightMoves[i])%2 == 1)){
-					enemyThreatenedCount++;
+					!isWhite && gamestate.checkField(position+knightMoves[i])%2 == 1))){
+				enemyThreatenedCount++;
 			}
 		}
 	}
-	
-	private void pawnThreats(int position) {
-		//TODO enemy pieces of higher value threatened by pawns
+
+	private void pawnThreats(int threatendPiece) {
+		if(gamestate.getField(threatendPiece) > 2 && (
+				(isWhite && gamestate.getField(threatendPiece)%2 == 0) || 
+				(!isWhite && gamestate.getField(threatendPiece)%2 == 1))) {
+			enemyThreatenedCount++;
+		}
+	}
+
+	private int evaluateThreats() {
+		//The player should be given points based on how many enemy pieces are threatened by your smaller pieces
+		
+		if(enemyThreatenedCount == 0) {
+			enemyThreatenedCount=0; 			//Reset the threatenedCount
+			return -2;							//Threatening zero pieces: -2 points
+		} else if(enemyThreatenedCount == 1) {
+			enemyThreatenedCount=0; 			//Reset the threatenedCount
+			return 10;							//Threatening one piece: 10 points
+		} else if(enemyThreatenedCount > 1) {
+			enemyThreatenedCount=0; 			//Reset the threatenedCount
+			return 50;							//Threatening several pieces: 50 points
+		} else {
+			System.err.println("Invalid number of threatened pieces");
+			return 0;
+		}
 	}
 }
