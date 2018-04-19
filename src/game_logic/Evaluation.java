@@ -14,6 +14,8 @@ public class Evaluation {
 	}
 
 	public double evaluateState() {
+		System.out.println("points for white: " + standardEvaluation(isWhite));
+		System.out.println("points for black: " + standardEvaluation(!isWhite));
 		return standardEvaluation(isWhite)-standardEvaluation(!isWhite);
 		//		if(isWhite) {
 		//			return standardEvaluation(true)-standardEvaluation(false);
@@ -61,9 +63,9 @@ public class Evaluation {
 	private double evaluatePiece(int position, int pieceType) {
 		switch(pieceType) {
 		//White Pawn: 100 + whitePawnRow[Row] + PawnLine[Line]*Row/2
-		case 1: pawnThreats(15); pawnThreats(17); return 100 + whitePawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2);
+		case 1: pawnThreats(position+15); pawnThreats(position+17); return 100 + whitePawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2.0);
 		//Black Pawn: 100 + blackPawnRow[Row] + PawnLine[Line]*Row/2
-		case 2: pawnThreats(-15); pawnThreats(-17); return 100 + blackPawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*gamestate.getY(position)/2);
+		case 2: pawnThreats(position-15); pawnThreats(position-17); return 100 + blackPawnRow[gamestate.getY(position)] + (pawnLine[gamestate.getX(position)]*(7-gamestate.getY(position))/2.0);
 		//Knight: 300 + 3.0 * (4-Distance to center)
 		//Check for threatened pieces with higher value than the knight
 		case 3:	case 4: knightThreats(position); 
@@ -100,16 +102,19 @@ public class Evaluation {
 			the same value for comparison */
 			int tempPieceValue = gamestate.checkField(position);
 			if(tempPieceValue%2 == 1) {
-				tempPieceValue+=1;
+				tempPieceValue++;
 			}
 
 			if(gamestate.checkField(position+direction) == 0) {
 				coveredFields = coverDirection(position+direction, coveredFields, direction);
 			} else if(gamestate.checkField(position+direction) > tempPieceValue && 
-					((isWhite && gamestate.checkField(position+direction)%2 == 0) || 
-							!isWhite && gamestate.checkField(position+direction)%2 == 1)) {
+					((isWhite && gamestate.checkField(position+direction)%2 == 0 && gamestate.checkField(position)%2 == 1) || 
+						(!isWhite && gamestate.checkField(position+direction)%2 == 1 && gamestate.checkField(position)%2 == 0))) {
+				System.out.println("gamestate.checkField(position+direction) " + gamestate.checkField(position+direction));
+				System.out.println("tempPieceValue " + tempPieceValue);
 				//If the covered field is an enemy piece with higher base value count it
 				enemyThreatenedCount++;
+				System.out.println("direction t " + position + " " + direction);
 			}
 		}
 		return coveredFields;
@@ -133,6 +138,7 @@ public class Evaluation {
 			if(!gamestate.outOfBoard(position+knightMoves[i]) && (gamestate.checkField(position+knightMoves[i]) > 4 && // greater than four, because higher numbered pieces have higher valued that the knight
 					(isWhite && gamestate.checkField(position+knightMoves[i])%2 == 0 || 
 					!isWhite && gamestate.checkField(position+knightMoves[i])%2 == 1))){
+				System.out.println("knight t");
 				enemyThreatenedCount++;
 			}
 		}
@@ -143,11 +149,13 @@ public class Evaluation {
 				(isWhite && gamestate.getField(threatendPiece)%2 == 0) || 
 				(!isWhite && gamestate.getField(threatendPiece)%2 == 1))) {
 			enemyThreatenedCount++;
+			System.out.println("pawn t");
 		}
 	}
 
 	private int evaluateThreats() {
 		//The player should be given points based on how many enemy pieces are threatened by your smaller pieces
+		System.out.println("Enemies threatend " + enemyThreatenedCount);
 		
 		if(enemyThreatenedCount == 0) {
 			enemyThreatenedCount=0; 			//Reset the threatenedCount
