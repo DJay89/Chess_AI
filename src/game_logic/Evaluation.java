@@ -96,7 +96,7 @@ public class Evaluation {
 
 		if(!gamestate.outOfBoard(position+direction)) {
 			coveredFields++;
-
+			System.out.println("Piece " + gamestate.getField(position) + ", " + position + " is covering index " + (position+direction));
 			/* The integer representation of the pieces are ordered by value,
 			but we need to make sure similar pieces of the two player have
 			the same value for comparison */
