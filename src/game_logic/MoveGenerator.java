@@ -299,7 +299,7 @@ public class MoveGenerator {
 
 	}
 
-	public ArrayList<MoveType> getAll(boolean isWhite){
+	public ArrayList<MoveType> getAll(boolean isWhite, GameState state){
 
 		ArrayList<MoveType> res = new ArrayList<MoveType>();
 
@@ -334,20 +334,68 @@ public class MoveGenerator {
 		return res;
 	}
 
-	private boolean checkMate(GameState state, int piece){
-		int[] King = { 16, -16, 1, -1, 15, 17, -15, -17 };
+	private boolean checkThread(GameState state, int piece){
+
+		int[] King = { 16, -16, 1, -1};
+		int[] King2 = {15, 17, -15, -17};
+
+		boolean res = false;
+
+		for (int i : King){
+
+			if (piece%2 == 1)
+				if (kingSpotting(state.getWKingPos(), i, piece))
+					res = true;
+			if (piece%2 == 0)
+				if (kingSpotting(state.getBKingPos(), i, piece))
+					res = true;
+		}
 
 
+		for (int i : King2){
 
-		for (int i : King)		
-			return true;
-		return false;
+			if (piece%2 == 1)
+				if (kingSpotting(state.getWKingPos(), i, piece))
+					res = true;
+			if (piece%2 == 0)
+				if (kingSpotting(state.getBKingPos(), i, piece))
+					res = true;
+		}
+
+		return res;
 	}
 
-	private int kingSpotting(int index, int move, int piece){
-		//if (state.outOfBoard(state.get))
+	private boolean kingSpotting(int index, int move, int piece){
+		if (!state.outOfBoard(index + move)){
+			if(state.checkField(index + move) == 0)
+				kingSpotting(index + move, move, piece );
 
-			return 0;
+			if(state.checkField(index + move)%2 != piece%2 ){
+				switch(state.checkField(index + move)){
+
+				case(9)	:	case(10)		:
+					return true;
+
+				case(7)		:	case(8)		:
+					if(move == 16 || move == -16 || move == 1 || move == -1)
+						return true;
+				break;
+
+				case(5)		:	case(6)		:
+					if(move == 15 || move == -15 || move == 17 || move == -17)
+						return true;
+				break;
+
+
+
+				}
+
+
+			}
+
+		}
+
+		return true;
 	}
 
 
