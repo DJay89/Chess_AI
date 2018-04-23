@@ -158,7 +158,7 @@ public class Evaluation {
 			enemyThreatenedCount=0; 			//Reset the threatenedCount
 			return 50;							//Threatening several pieces: 50 points
 		} else {
-			return 0;
+			System.err.println("Invalid number of threatened pieces"); return 0;
 		}
 	}
 }
