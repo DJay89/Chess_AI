@@ -6,16 +6,19 @@ public class AlphaBetaController implements Runnable{
 
 	private GameState gameState;
 	private boolean isWhite;
-	static MoveType bestMove;
+	private static MoveType bestMove;
+	private boolean running;
 
 	public AlphaBetaController(GameState gameState, boolean isWhite) {
 		this.gameState = gameState;
 		this.isWhite = isWhite;
 	}
-
+	
 	@Override
 	public void run() {
 
+		running = true;
+		while(running) {
 		int i = 1;
 		while(true) {
 			AlphaBeta ab = new AlphaBeta(gameState, i++, isWhite);
@@ -27,18 +30,26 @@ public class AlphaBetaController implements Runnable{
 				firstMoves.add(new MoveData(ab.runAlphaBeta(-100000, 100000, 1, gameState), validMoves.get(j)));
 			}
 
-			double tempMAX = 0;
+			double tmpMax = 0;
 
 			for(int h = 0; h < firstMoves.size(); h++) {
-				if(firstMoves.get(h).getValue() > tempMAX) {
-					tempMAX = firstMoves.get(h).getValue();
+				if(firstMoves.get(h).getValue() > tmpMax) {
+					tmpMax = firstMoves.get(h).getValue();
 					bestMove = firstMoves.get(h).getMoveType();
 				}
 			}
-
 		}
-
+		}
 	}
 
+	public static MoveType getBestMove() {
+		return bestMove;
+	}
 
+	public MoveType terminate() {
+		running = false;
+		return bestMove;
+	}
+	
+	
 }

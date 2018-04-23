@@ -24,12 +24,13 @@ public class AlphaBeta {
 
 		MoveGenerator mg = new MoveGenerator();
 		ArrayList<MoveType> childNodes = mg.getAll(isWhite, gameState);
+		
 		int nextNode = 0;
 
 		//If current node is MAX
 		if(currentDepth%2 == 0) {
 			while(alpha < beta) {
-				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode++)));
+				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode)));
 				if(V > alpha) {
 					alpha = V;
 				}
@@ -39,10 +40,13 @@ public class AlphaBeta {
 		//If current node is MIN
 		} else {
 			while(alpha < beta) {
-				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode++)));
+				double V = runAlphaBeta(alpha, beta, currentDepth, this.gameState.newState(gameState, childNodes.get(nextNode)));
+				System.out.println(nextNode);
 				if(V < beta) {
 					beta = V;
 				}
+				currentDepth++;
+				nextNode++;
 			}
 			return beta;
 		}

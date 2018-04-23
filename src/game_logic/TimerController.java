@@ -5,23 +5,35 @@ import java.util.TimerTask;
 
 public class TimerController implements Runnable {
 	private static boolean shutdown;
+	private boolean isWhite;
+	private GameState gameState;
 	private int turnTime;
-	
+	private boolean timeout;
+	private MoveType bestMove;
 	
 	// Constructor of the object takes the amount of time a turn should be set for
-	public TimerController(int turnTime) {
+	public TimerController(GameState gameState, boolean isWhite, int turnTime) {
+		this.gameState = gameState;
+		this.isWhite = isWhite;
 		this.turnTime = turnTime;
 	}
-	
+		
 	// Now start the turn
 	public void run() {
 		this.shutdownTimer();
+		
+		AlphaBetaController abController = new AlphaBetaController(gameState, isWhite);
+		abController.run();
 		
 		int i = 0;
 		while (!shutdown) {
 			System.out.println(i);
 			i++;
 		}
+		
+		bestMove = abController.terminate();
+		timeout();
+		
 	}
 	
 	// stop the turn
@@ -42,8 +54,12 @@ public class TimerController implements Runnable {
 		}, this.turnTime);
 	}
 	
-	public static void main(String[] args) {
-		TimerController turn = new TimerController(10000);
-		turn.run();
+	public boolean timeout() {
+		return timeout;
 	}
+
+	public MoveType getBestMove() {
+		return bestMove;
+	}
+	
 }
