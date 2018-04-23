@@ -37,7 +37,7 @@ public class AlphaBeta {
 			return alpha;
 
 			//If current node is MIN
-		} else if(currentDepth%2 == 1) {
+		} else {
 			while(alpha < beta) {
 				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode++)));
 				if(V < beta) {
@@ -46,7 +46,5 @@ public class AlphaBeta {
 			}
 			return beta;
 		}
-
-		return 0;
 	}
 }
