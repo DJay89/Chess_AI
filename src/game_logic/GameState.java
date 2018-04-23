@@ -12,7 +12,8 @@ public class GameState {
 	 */
 
 
-	int[] currentState;
+	private int[] currentState;
+	private int WKing, BKing;
 
 	//default constructor for generating a GameState in the standard chess starting position
 	public GameState() {
@@ -41,6 +42,7 @@ public class GameState {
 		currentState[2]=5; currentState[5]=5;
 		//white king
 		currentState[4]=11;
+		WKing = 4;
 		//white queen
 		currentState[3]=9;
 
@@ -52,6 +54,7 @@ public class GameState {
 		currentState[114]=6; currentState[117]=6;
 		//black king
 		currentState[116]=12;
+		BKing = 116;
 		//black queen
 		currentState[115]=10;
 
@@ -63,6 +66,50 @@ public class GameState {
 		//			System.out.print(" " + currentState[i]);
 		//		}
 	}
+	
+	public void changeState(MoveType move){
+		
+		if(move.getPiece() == 11)
+			WKing = move.newPos;
+		
+		if(move.getPiece() == 12)
+			BKing = move.getNewPos();
+		
+		currentState[move.getOldPos()] = 0;
+		currentState[move.getNewPos()] = move.getPiece();
+		
+	}
+	
+	public GameState newState(GameState state, MoveType move){
+		
+		if(move.getPiece() == 11)
+			state.setWKingPos(move.newPos);
+		
+		if(move.getPiece() == 12)
+			state.setBKingPos(move.newPos); 
+		
+		state.currentState[move.getOldPos()] = 0;
+		state.currentState[move.getNewPos()] = move.getPiece();
+		
+		return state;
+		
+	}
+	
+	public int getWKingPos(){
+		return WKing;
+	}
+	
+	public void setWKingPos(int pos){
+		this.WKing = pos;
+	}
+	
+	public int getBKingPos(){
+		return BKing;
+	}
+	
+	public void setBKingPos(int pos){
+		this.BKing = pos;
+	}
 
 	public int[] getCurrentState() {
 		return currentState;
@@ -70,6 +117,10 @@ public class GameState {
 
 	public int getField(int index) {
 		return currentState[index];
+	}
+	
+	public void setField(int index, int piece){
+		this.currentState[index] = piece;
 	}
 
 	public int getPieceType(int x, int y) {
