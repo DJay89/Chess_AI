@@ -14,8 +14,6 @@ public class Evaluation {
 	}
 
 	public double evaluateState() {
-		System.out.println("points for white: " + standardEvaluation(isWhite));
-		System.out.println("points for black: " + standardEvaluation(!isWhite));
 		return standardEvaluation(isWhite)-standardEvaluation(!isWhite);
 		//		if(isWhite) {
 		//			return standardEvaluation(true)-standardEvaluation(false);
@@ -96,7 +94,6 @@ public class Evaluation {
 
 		if(!gamestate.outOfBoard(position+direction)) {
 			coveredFields++;
-			System.out.println("Piece " + gamestate.getField(position) + ", " + position + " is covering index " + (position+direction));
 			/* The integer representation of the pieces are ordered by value,
 			but we need to make sure similar pieces of the two player have
 			the same value for comparison */
@@ -110,11 +107,8 @@ public class Evaluation {
 			} else if(gamestate.checkField(position+direction) > tempPieceValue && 
 					((isWhite && gamestate.checkField(position+direction)%2 == 0 && gamestate.checkField(position)%2 == 1) || 
 						(!isWhite && gamestate.checkField(position+direction)%2 == 1 && gamestate.checkField(position)%2 == 0))) {
-				System.out.println("gamestate.checkField(position+direction) " + gamestate.checkField(position+direction));
-				System.out.println("tempPieceValue " + tempPieceValue);
 				//If the covered field is an enemy piece with higher base value count it
 				enemyThreatenedCount++;
-				System.out.println("direction t " + position + " " + direction);
 			}
 		}
 		return coveredFields;
@@ -138,7 +132,6 @@ public class Evaluation {
 			if(!gamestate.outOfBoard(position+knightMoves[i]) && (gamestate.checkField(position+knightMoves[i]) > 4 && // greater than four, because higher numbered pieces have higher valued that the knight
 					(isWhite && gamestate.checkField(position+knightMoves[i])%2 == 0 || 
 					!isWhite && gamestate.checkField(position+knightMoves[i])%2 == 1))){
-				System.out.println("knight t");
 				enemyThreatenedCount++;
 			}
 		}
@@ -149,13 +142,11 @@ public class Evaluation {
 				(isWhite && gamestate.getField(threatendPiece)%2 == 0) || 
 				(!isWhite && gamestate.getField(threatendPiece)%2 == 1))) {
 			enemyThreatenedCount++;
-			System.out.println("pawn t");
 		}
 	}
 
 	private int evaluateThreats() {
 		//The player should be given points based on how many enemy pieces are threatened by your smaller pieces
-		System.out.println("Enemies threatend " + enemyThreatenedCount);
 		
 		if(enemyThreatenedCount == 0) {
 			enemyThreatenedCount=0; 			//Reset the threatenedCount
@@ -167,7 +158,6 @@ public class Evaluation {
 			enemyThreatenedCount=0; 			//Reset the threatenedCount
 			return 50;							//Threatening several pieces: 50 points
 		} else {
-			System.err.println("Invalid number of threatened pieces");
 			return 0;
 		}
 	}
