@@ -347,12 +347,7 @@ public class MoveGenerator {
 			for (int i = 0; i < 120; i++){
 
 				if (state.getField(i)%2 == 1){
-				
 					res.addAll(moveGen(i, state));
-					for (MoveType mt : res)
-						System.out.println(mt.content);
-					System.out.println("---");
-
 				}
 
 			}

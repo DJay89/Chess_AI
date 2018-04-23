@@ -1,11 +1,11 @@
 package game_logic;
 
-public class MoveData {
+public class Move {
 
 	private double value;
 	private MoveType moveType;
 	
-	public MoveData(double value, MoveType moveType) {
+	public Move(double value, MoveType moveType) {
 		this.value = value;
 		this.moveType = moveType;
 	}
