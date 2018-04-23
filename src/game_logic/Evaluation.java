@@ -97,16 +97,16 @@ public class Evaluation {
 			/* The integer representation of the pieces are ordered by value,
 			but we need to make sure similar pieces of the two player have
 			the same value for comparison */
-			int tempPieceValue = gamestate.checkField(position);
+			int tempPieceValue = gamestate.getField(position);
 			if(tempPieceValue%2 == 1) {
 				tempPieceValue++;
 			}
 
-			if(gamestate.checkField(position+direction) == 0) {
+			if(gamestate.getField(position+direction) == 0) {
 				coveredFields = coverDirection(position+direction, coveredFields, direction);
-			} else if(gamestate.checkField(position+direction) > tempPieceValue && 
-					((isWhite && gamestate.checkField(position+direction)%2 == 0 && gamestate.checkField(position)%2 == 1) || 
-						(!isWhite && gamestate.checkField(position+direction)%2 == 1 && gamestate.checkField(position)%2 == 0))) {
+			} else if(gamestate.getField(position+direction) > tempPieceValue && 
+					((isWhite && gamestate.getField(position+direction)%2 == 0 && gamestate.getField(position)%2 == 1) || 
+						(!isWhite && gamestate.getField(position+direction)%2 == 1 && gamestate.getField(position)%2 == 0))) {
 				//If the covered field is an enemy piece with higher base value count it
 				enemyThreatenedCount++;
 			}
@@ -129,9 +129,9 @@ public class Evaluation {
 	private void knightThreats(int position) {
 		int[] knightMoves = {33, -33, 31, -31, 18, -18, -14, 14};
 		for(int i = 0; i < knightMoves.length; i++) {
-			if(!gamestate.outOfBoard(position+knightMoves[i]) && (gamestate.checkField(position+knightMoves[i]) > 4 && // greater than four, because higher numbered pieces have higher valued that the knight
-					(isWhite && gamestate.checkField(position+knightMoves[i])%2 == 0 || 
-					!isWhite && gamestate.checkField(position+knightMoves[i])%2 == 1))){
+			if(!gamestate.outOfBoard(position+knightMoves[i]) && (gamestate.getField(position+knightMoves[i]) > 4 && // greater than four, because higher numbered pieces have higher valued that the knight
+					(isWhite && gamestate.getField(position+knightMoves[i])%2 == 0 || 
+					!isWhite && gamestate.getField(position+knightMoves[i])%2 == 1))){
 				enemyThreatenedCount++;
 			}
 		}
