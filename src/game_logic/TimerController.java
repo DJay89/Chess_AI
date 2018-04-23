@@ -3,13 +3,13 @@ package game_logic;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TurnTimer implements Runnable {
+public class TimerController implements Runnable {
 	private static boolean shutdown;
 	private int turnTime;
 	
 	
 	// Constructor of the object takes the amount of time a turn should be set for
-	public TurnTimer(int turnTime) {
+	public TimerController(int turnTime) {
 		this.turnTime = turnTime;
 	}
 	
@@ -37,13 +37,13 @@ public class TurnTimer implements Runnable {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				TurnTimer.shutdown();
+				TimerController.shutdown();
 			}
 		}, this.turnTime);
 	}
 	
 	public static void main(String[] args) {
-		TurnTimer turn = new TurnTimer(10000);
+		TimerController turn = new TimerController(10000);
 		turn.run();
 	}
 }

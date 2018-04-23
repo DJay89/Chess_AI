@@ -25,7 +25,7 @@ public class AlphaBeta {
 		MoveGenerator mg = new MoveGenerator();
 		ArrayList<MoveType> childNodes = mg.getAll(isWhite, gameState);
 		int nextNode = 0;
-		
+
 		//If current node is MAX
 		if(currentDepth%2 == 0) {
 			while(alpha < beta) {
@@ -36,7 +36,7 @@ public class AlphaBeta {
 			}
 			return alpha;
 
-			//If current node is MIN
+		//If current node is MIN
 		} else {
 			while(alpha < beta) {
 				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode++)));
