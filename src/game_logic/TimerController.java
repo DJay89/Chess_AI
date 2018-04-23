@@ -32,7 +32,6 @@ public class TimerController implements Runnable {
 		}
 		
 		bestMove = abController.terminate();
-		timeout();
 		
 	}
 	

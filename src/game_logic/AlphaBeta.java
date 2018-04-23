@@ -7,7 +7,6 @@ public class AlphaBeta {
 	private GameState gameState;
 	private int searchDepth;
 	private boolean isWhite;
-	private int nextNode;
 
 	public AlphaBeta(GameState gameState, int searchDepth, boolean isWhite) {
 		this.gameState = gameState;
@@ -17,39 +16,35 @@ public class AlphaBeta {
 
 	public double runAlphaBeta(double alpha, double beta, int currentDepth, GameState gameState) {
 
-		MoveGenerator mg = new MoveGenerator();
-		ArrayList<MoveType> childNodes = mg.getAll(isWhite, gameState);
-
-		// If node is a leaf
-		if (currentDepth == searchDepth) {
+		//If node is a leaf
+		if(currentDepth == searchDepth) {
 			Evaluation eva = new Evaluation(gameState, isWhite);
 			return eva.evaluateState();
 		}
 
-		// If current node is MAX
-		if (currentDepth % 2 == 0) {
-			while (alpha < beta) {
-				double V = runAlphaBeta(alpha, beta, currentDepth++,
-						this.gameState.newState(gameState, childNodes.get(nextNode++)));
-				if (V > alpha) {
+		MoveGenerator mg = new MoveGenerator();
+		ArrayList<MoveType> childNodes = mg.getAll(isWhite, gameState);
+		int nextNode = 0;
+
+		//If current node is MAX
+		if(currentDepth%2 == 0) {
+			while(alpha < beta) {
+				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode++)));
+				if(V > alpha) {
 					alpha = V;
 				}
 			}
 			return alpha;
-		}
 
-		// If current node is MIN
-		else {
-			while (alpha < beta) {
-				double V = runAlphaBeta(alpha, beta, currentDepth++,
-						this.gameState.newState(gameState, childNodes.get(nextNode++)));
-				System.out.println(nextNode);
-				if (V < beta) {
+		//If current node is MIN
+		} else {
+			while(alpha < beta) {
+				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode++)));
+				if(V < beta) {
 					beta = V;
 				}
 			}
 			return beta;
 		}
-
 	}
 }
