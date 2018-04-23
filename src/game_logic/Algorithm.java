@@ -9,10 +9,10 @@ public class Algorithm {
 	MoveGenerator genMoves = new MoveGenerator();
 	
 
-	public MoveValue alphaBeta(double alpha, double beta, int maxDepth, boolean isWhite) {
-//		if (!canContinue()) {
-//			return new MoveValue();
-//		}
+	public Move alphaBeta(double alpha, double beta, int maxDepth, boolean isWhite) {
+				if (!canContinue()) {
+					return new Move();
+				}
 		
 		Evaluation eva = new Evaluation(state, isWhite);
 		
@@ -24,18 +24,19 @@ public class Algorithm {
 		
 		if (maxDepth == 0) {
 			value = eva.evaluateState();
-			return new MoveValue(value);
+			return new Move(value);
 		}
 		
-		MoveValue returnMove;
-		MoveValue bestMove = null;
+		Move returnMove = new Move();
+		Move bestMove = returnMove;
 		
 		if (isMaximizer) {
 			while (movesIterator.hasNext()) {
 				MoveType currentMove = movesIterator.next();
+				System.out.println(currentMove.getContent() + ": " + currentMove.getOldPos() + "->" + currentMove.getNewPos());
 				state.changeState(currentMove);
 				returnMove = alphaBeta(alpha, beta, maxDepth - 1, !isWhite);
-				//state.undoLastMove();
+				state.undoLastMove(currentMove);
 				
 				if ((bestMove == null) || (bestMove.returnValue < returnMove.returnValue)) {
 					bestMove = returnMove;
@@ -57,7 +58,7 @@ public class Algorithm {
 				MoveType currentMove = movesIterator.next();
 				state.changeState(currentMove);
 				returnMove = alphaBeta(alpha, beta, maxDepth - 1, isWhite);
-				//state.undoLastMove();
+				state.undoLastMove(currentMove);
 				
 				if ((bestMove == null) || (bestMove.returnValue > returnMove.returnValue)) {
 					bestMove = returnMove;
@@ -77,21 +78,27 @@ public class Algorithm {
 		}
 	}
 
+
+	private boolean canContinue() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }
 
-class MoveValue {
+class Move {
 	public double returnValue;
 	public MoveType returnMove;
 
-	public MoveValue() {
+	public Move() {
 		returnValue = 0;
 	}
 
-	public MoveValue(double returnValue) {
+	public Move(double returnValue) {
 		this.returnValue = returnValue;
 	}
 
-	public MoveValue(double returnValue, MoveType returnMove) {
+	public Move(double returnValue, MoveType returnMove) {
 		this.returnValue = returnValue;
 		this.returnMove = returnMove;
 	}

@@ -159,8 +159,7 @@ public class GameState {
             System.out.print("[ " + (7-repeat) + "]   ");
  
             for(int i = 112-bonus; i < 120-bonus; i++){
-                if (currentState[i] <
-10)
+                if (currentState[i] < 10)
                     System.out.print("[ " + currentState[i] + "]");
                 if (currentState[i] > 9)
                     System.out.print("[" + currentState[i] + "]");
@@ -177,6 +176,11 @@ public class GameState {
             bonus += 16;
         }
     }
+
+	public void undoLastMove(MoveType move) {
+		currentState[move.getOldPos()] = 0;
+        currentState[move.getNewPos()] = move.getPiece();
+	}
  
 
     }
