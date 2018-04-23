@@ -14,7 +14,7 @@ public class AlphaBeta {
 		this.isWhite = isWhite;
 	}
 
-	public double runAlphaBeta(double alpha, double beta, int currentDepth) {
+	public double runAlphaBeta(double alpha, double beta, int currentDepth, GameState gameState) {
 
 		//If node is a leaf
 		if(currentDepth == searchDepth) {
@@ -23,13 +23,13 @@ public class AlphaBeta {
 		}
 
 		MoveGenerator mg = new MoveGenerator();
-		ArrayList<MoveType> childNodes = mg.moveGen(index)
+		ArrayList<MoveType> childNodes = mg.getAll(isWhite, gameState);
+		int nextNode = 0;
 		
-
 		//If current node is MAX
 		if(currentDepth%2 == 0) {
 			while(alpha < beta) {
-				double V = runAlphaBeta(alpha, beta, currentDepth+1);
+				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode++)));
 				if(V > alpha) {
 					alpha = V;
 				}
@@ -39,7 +39,7 @@ public class AlphaBeta {
 			//If current node is MIN
 		} else if(currentDepth%2 == 1) {
 			while(alpha < beta) {
-				double V = runAlphaBeta(alpha, beta, currentDepth+1);
+				double V = runAlphaBeta(alpha, beta, currentDepth+1, this.gameState.newState(gameState, childNodes.get(nextNode++)));
 				if(V < beta) {
 					beta = V;
 				}
