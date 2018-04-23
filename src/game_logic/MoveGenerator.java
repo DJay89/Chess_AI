@@ -8,6 +8,8 @@ public class MoveGenerator {
 
 	private ArrayList<MoveType> result = new ArrayList<MoveType>();
 
+	MoveType test;
+
 	public ArrayList<MoveType> moveGen(int index, GameState state) {
 
 		this.state = state;
@@ -162,13 +164,17 @@ public class MoveGenerator {
 				// Eligible for special
 				if (special == true && state.checkField(index + (2 * move)) == 0) {
 					// Create and add MoveType
-					result.add(new MoveType(index + (2 * move), index, special, piece, state.getField(index)));
+					test = new MoveType(index + (2 * move), index, special, piece, state.getField(index));
+					if (!checkThreat(state.newState(state, test), piece))
+						result.add(test);
 				}
 
 				// Standard move
 				if (state.checkField(index + move) == 0) {
 					// Create and add MoveType
-					result.add(new MoveType(index + move, index, special, piece, state.getField(index)));
+					test = new MoveType(index + move, index, special, piece, state.getField(index));
+					if (!checkThreat(state.newState(state, test), piece))
+						result.add(test);
 				}
 			}
 
@@ -176,11 +182,15 @@ public class MoveGenerator {
 
 				// When the field is occupied and is an enemy piece
 				if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
-					result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+					test = new MoveType(index + move, index, false, piece, state.getField(index));
+					if (!checkThreat(state.newState(state, test), piece))
+						result.add(test);
 				}
 
 				if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
-					result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+					test = new MoveType(index + move, index, false, piece, state.getField(index));
+					if (!checkThreat(state.newState(state, test), piece))
+						result.add(test);
 				}
 
 			}
@@ -195,15 +205,21 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 		}
 
@@ -215,16 +231,22 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
-				moveBishop(piece, move, index + move, result);
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				result.add(test);
+				if (!checkThreat(state.newState(state, test), piece))
+					moveBishop(piece, move, index + move, result);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 
 		}
@@ -238,16 +260,22 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 				moveRook(piece, move, index + move, result);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 		}
 
@@ -260,16 +288,22 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 				moveQueen(piece, move, index + move, result);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 		}
 
@@ -282,16 +316,22 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.checkField(index + move) == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 				moveKing(piece, move, index + move, result);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 != 0 && state.checkField(index + move) % 2 == 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 
 			if (state.checkField(index + move) != 0 && index % 2 == 0 && state.checkField(index + move) % 2 != 0) {
-				result.add(new MoveType(index + move, index, false, piece, state.getField(index)));
+				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				if (!checkThreat(state.newState(state, test), piece))
+					result.add(test);
 			}
 		}
 
@@ -334,38 +374,70 @@ public class MoveGenerator {
 		return res;
 	}
 
-	private boolean checkThread(GameState state, int piece){
+	private boolean checkThreat(GameState state, int piece){
 
-		int[] King = { 16, -16, 1, -1};
-		int[] King2 = {15, 17, -15, -17};
+		int[] direction = { 16, -16, 1, -1};
+		int[] direction2 = {15, 17, -15, -17};
+		int[] Knight = { 33, -33, 31, -31, 18, -18, -14, 14 };
 
-		boolean res = false;
+		if (piece%2 == 1){
 
-		for (int i : King){
+			if (!state.outOfBoard(state.getWKingPos() + 15))
+				if (state.checkField(state.getWKingPos() + 15) == 2)
+					return true;
+
+			if (!state.outOfBoard(state.getWKingPos() + 17))
+				if (state.checkField(state.getWKingPos() + 17) == 2)
+					return true;
+
+			for (int i : Knight)
+				if (!state.outOfBoard(state.getWKingPos() + i))
+					if (state.checkField(state.getWKingPos() + i) == 4)
+						return true;
+		}			
+
+		if (piece%2 == 0){
+
+			if (!state.outOfBoard(state.getWKingPos() - 15))
+				if (state.checkField(state.getWKingPos() - 15) == 1)
+					return true;
+
+			if (!state.outOfBoard(state.getWKingPos() - 17))
+				if (state.checkField(state.getWKingPos() - 17) == 1)
+					return true;
+
+			for (int i : Knight)
+				if (!state.outOfBoard(state.getWKingPos() + i))
+					if (state.checkField(state.getWKingPos() + i) == 3)
+						return true;	
+
+		}
+
+		for (int i : direction){
 
 			if (piece%2 == 1)
 				if (kingSpotting(state.getWKingPos(), i, piece))
-					res = true;
+					return true;
 			if (piece%2 == 0)
 				if (kingSpotting(state.getBKingPos(), i, piece))
-					res = true;
+					return true;
 		}
 
-
-		for (int i : King2){
+		for (int i : direction2){
 
 			if (piece%2 == 1)
 				if (kingSpotting(state.getWKingPos(), i, piece))
-					res = true;
+					return true;
 			if (piece%2 == 0)
 				if (kingSpotting(state.getBKingPos(), i, piece))
-					res = true;
+					return true;
 		}
 
-		return res;
+		return false;
 	}
 
 	private boolean kingSpotting(int index, int move, int piece){
+
 		if (!state.outOfBoard(index + move)){
 			if(state.checkField(index + move) == 0)
 				kingSpotting(index + move, move, piece );
@@ -385,17 +457,13 @@ public class MoveGenerator {
 					if(move == 15 || move == -15 || move == 17 || move == -17)
 						return true;
 				break;
-
-
-
 				}
-
 
 			}
 
 		}
 
-		return true;
+		return false;
 	}
 
 
