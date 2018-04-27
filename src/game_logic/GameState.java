@@ -80,7 +80,7 @@ public class GameState {
        
     }
     
-    public void prevState(MoveType move){
+    public void oldState(MoveType move){
         
         if(move.getPiece() == 11)
             WKing = move.getOldPos();

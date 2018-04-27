@@ -3,7 +3,7 @@ package game_logic;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TimerController implements Runnable {
+public class TimerController extends Thread {
 	private static boolean shutdown;
 	private int turnTime;
 	
