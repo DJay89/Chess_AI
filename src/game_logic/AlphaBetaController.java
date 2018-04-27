@@ -24,7 +24,9 @@ public class AlphaBetaController extends Thread{
 			ArrayList<MoveData> firstMoves = new ArrayList<MoveData>();
 
 			for(int j = 0; j < validMoves.size(); j++) {
-				firstMoves.add(new MoveData(ab.runAlphaBeta(-100000, 100000, 1, gameState), validMoves.get(j)));
+				gameState.newState(validMoves.get(j));
+				firstMoves.add(new MoveData(ab.runAlphaBeta(-100000, 100000, 1, validMoves.get(j)), validMoves.get(j)));
+				gameState.oldState(validMoves.get(j));
 			}
 
 			double tempMAX = 0;
