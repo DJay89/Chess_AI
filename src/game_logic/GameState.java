@@ -88,7 +88,7 @@ public class GameState {
         if(move.getPiece() == 12)
             BKing = move.getOldPos();
        
-        currentState[move.getNewPos()] = 0;
+        currentState[move.getNewPos()] = move.getContent();
         currentState[move.getOldPos()] = move.getPiece();
        
     }

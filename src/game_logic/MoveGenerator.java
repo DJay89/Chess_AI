@@ -23,7 +23,7 @@ public class MoveGenerator {
 
 		case (1): // White Pawn
 
-		int[] WPawn = { 16, 15, 17 }; // Possible move paths
+			int[] WPawn = { 16, 15, 17 }; // Possible move paths
 
 		if (index >= 16 && index <= 23) {
 			special = true;
@@ -164,7 +164,7 @@ public class MoveGenerator {
 				// Eligible for special
 				if (special == true && state.getField(index + (2 * move)) == 0) {
 					// Create and add MoveType
-					test = new MoveType(index + (2 * move), index, special, piece, state.getField(index));
+					test = new MoveType(index + (2 * move), index, special, piece, state.getField(index + move));
 					if (!checkThreat(test, piece))
 						result.add(test);
 				}
@@ -172,7 +172,7 @@ public class MoveGenerator {
 				// Standard move
 				if (state.getField(index + move) == 0) {
 					// Create and add MoveType
-					test = new MoveType(index + move, index, special, piece, state.getField(index));
+					test = new MoveType(index + move, index, special, piece, state.getField(index + move));
 					if (!checkThreat(test, piece))
 						result.add(test);
 				}
@@ -182,13 +182,13 @@ public class MoveGenerator {
 
 				// When the field is occupied and is an enemy piece
 				if (state.getField(index + move) != 0 && piece % 2 != 0 && state.getField(index + move) % 2 == 0) {
-					test = new MoveType(index + move, index, false, piece, state.getField(index));
+					test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 					if (!checkThreat(test, piece))
 						result.add(test);
 				}
 
 				if (state.getField(index + move) != 0 && piece % 2 == 0 && state.getField(index + move) % 2 != 0) {
-					test = new MoveType(index + move, index, false, piece, state.getField(index));
+					test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 					if (!checkThreat(test, piece))
 						result.add(test);
 				}
@@ -205,19 +205,19 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.getField(index + move) == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 != 0 && state.getField(index + move) % 2 == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 == 0 && state.getField(index + move) % 2 != 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
@@ -231,20 +231,20 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.getField(index + move) == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 				moveBishop(piece, move, index + move, result);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 != 0 && state.getField(index + move) % 2 == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 == 0 && state.getField(index + move) % 2 != 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
@@ -260,20 +260,20 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.getField(index + move) == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 				moveRook(piece, move, index + move, result);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 != 0 && state.getField(index + move) % 2 == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 == 0 && state.getField(index + move) % 2 != 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
@@ -288,20 +288,20 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.getField(index + move) == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 				moveQueen(piece, move, index + move, result);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 != 0 && state.getField(index + move) % 2 == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 == 0 && state.getField(index + move) % 2 != 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
@@ -316,19 +316,19 @@ public class MoveGenerator {
 		if (state.outOfBoard(index + move) == false) {
 
 			if (state.getField(index + move) == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 != 0 && state.getField(index + move) % 2 == 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
 
 			if (state.getField(index + move) != 0 && piece % 2 == 0 && state.getField(index + move) % 2 != 0) {
-				test = new MoveType(index + move, index, false, piece, state.getField(index));
+				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
 				if (!checkThreat(test, piece))
 					result.add(test);
 			}
@@ -343,40 +343,26 @@ public class MoveGenerator {
 		ArrayList<MoveType> res = new ArrayList<MoveType>();
 
 		if (isWhite){
-
 			for (int i = 0; i < 120; i++){
-
 				if (state.getField(i)%2 == 1){
-
 					res.addAll(moveGen(i, state));
-
 				}
-
 			}
-
 		}
-
 		if (!isWhite){
-
 			for (int i = 0; i < 120; i++){
-
 				if (state.getField(i)%2 == 0 && state.getField(i) != 0){
-
 					res.addAll(moveGen(i, state));
-
 				}
-
 			}
 		}
-
-
 		return res;
 	}
 
 	public boolean checkThreat(MoveType boardChange, int piece){
 
 		state.newState(boardChange);
-
+		
 		int[] direction = { 16, -16, 1, -1};
 		int[] direction2 = {15, 17, -15, -17};
 		int[] Knight = { 33, -33, 31, -31, 18, -18, -14, 14 };
@@ -395,13 +381,11 @@ public class MoveGenerator {
 					return true;
 				}
 			for (int i : Knight)
-				if (!state.outOfBoard(state.getWKingPos() + i)){                   
+				if (!state.outOfBoard(state.getWKingPos() + i))                   
 					if (state.getField(state.getWKingPos() + i) == 4){
 						state.oldState(boardChange);
 						return true;
 					}
-				}
-
 		}          
 
 		if (piece%2 == 0){
@@ -453,8 +437,6 @@ public class MoveGenerator {
 					return true;
 				}
 		}
-
-		state.oldState(boardChange);
 		return false;
 	}
 
