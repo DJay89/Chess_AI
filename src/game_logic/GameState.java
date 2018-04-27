@@ -80,6 +80,7 @@ public class GameState {
        
     }
    
+    /*
     public GameState newState(GameState state, MoveType move){
         GameState newState = new GameState();
         newState.setCurrentState(state.getCurrentState());
@@ -96,6 +97,7 @@ public class GameState {
         return newState;
        
     }
+    */
    
     public int getWKingPos(){
         return WKing;
