@@ -67,7 +67,7 @@ public class GameState {
         //      }
     }
    
-    public void changeState(MoveType move){
+    public void newState(MoveType move){
        
         if(move.getPiece() == 11)
             WKing = move.getNewPos();
@@ -79,6 +79,20 @@ public class GameState {
         currentState[move.getNewPos()] = move.getPiece();
        
     }
+    
+    public void prevState(MoveType move){
+        
+        if(move.getPiece() == 11)
+            WKing = move.getOldPos();
+       
+        if(move.getPiece() == 12)
+            BKing = move.getOldPos();
+       
+        currentState[move.getNewPos()] = 0;
+        currentState[move.getOldPos()] = move.getPiece();
+       
+    }
+    
    
     /*
     public GameState newState(GameState state, MoveType move){
