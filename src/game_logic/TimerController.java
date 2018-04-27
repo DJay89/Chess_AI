@@ -19,7 +19,7 @@ public class TimerController extends Thread {
 		
 		int i = 0;
 		while (!shutdown) {
-			System.out.println(i);
+//			System.out.println(i);
 			i++;
 		}
 	}
@@ -42,8 +42,8 @@ public class TimerController extends Thread {
 		}, this.turnTime);
 	}
 	
-	public static void main(String[] args) {
-		TimerController turn = new TimerController(10000);
-		turn.run();
-	}
+//	public static void main(String[] args) {
+//		TimerController turn = new TimerController(10000);
+//		turn.run();
+//	}
 }

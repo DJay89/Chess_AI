@@ -26,28 +26,32 @@ public class AlphaBeta {
 		ArrayList<MoveType> childNodes = mg.getAll(isWhite, gameState);
 		int nextNode = 0;
 
+		gameState.newState(moveType);
+		
 		//If current node is MAX
 		if(currentDepth%2 == 0) {
-			while(alpha < beta) {
-				gameState.newState(moveType);
+			while(alpha < beta && nextNode < childNodes.size()) {
+//				gameState.newState(moveType);
 				double V = runAlphaBeta(alpha, beta, currentDepth+1, childNodes.get(nextNode++));
-				gameState.oldState(moveType);
+//				gameState.oldState(moveType);
 				if(V > alpha) {
 					alpha = V;
 				}
 			}
+			gameState.oldState(moveType);
 			return alpha;
 
 		//If current node is MIN
 		} else {
-			while(alpha < beta) {
-				gameState.newState(moveType);
+			while(alpha < beta && nextNode < childNodes.size()) {
+//				gameState.newState(moveType);
 				double V = runAlphaBeta(alpha, beta, currentDepth+1, childNodes.get(nextNode++));
-				gameState.oldState(moveType);
+//				gameState.oldState(moveType);
 				if(V < beta) {
 					beta = V;
 				}
 			}
+			gameState.oldState(moveType);
 			return beta;
 		}
 	}
