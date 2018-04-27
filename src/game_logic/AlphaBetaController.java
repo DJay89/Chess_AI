@@ -2,7 +2,7 @@ package game_logic;
 
 import java.util.ArrayList;
 
-public class AlphaBetaController implements Runnable{
+public class AlphaBetaController extends Thread{
 
 	private GameState gameState;
 	private boolean isWhite;
