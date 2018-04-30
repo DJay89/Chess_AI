@@ -43,7 +43,6 @@ public class MinMax {
 	public MoveValue minMax(double alpha, double beta, int maxDepth, boolean isWhite) {       
 	    
 		GameState state = new GameState();
-		MoveGenerator generator = new MoveGenerator();
 		
 		Evaluation evaluator = new Evaluation(state, isWhite);
 		

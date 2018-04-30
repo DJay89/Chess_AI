@@ -1,10 +1,14 @@
 package algorithm;
 
 import algorithm.MinMax.MoveValue;
+import game_logic.GameState;
 
 public class RunMinMax {
 
 	public static void main(String[] args) {
+		
+		GameState state = new GameState();
+		state.printBoard();
 		
 		MinMax minMax = new MinMax();
 		AlternativeMinMax alt = new AlternativeMinMax();
