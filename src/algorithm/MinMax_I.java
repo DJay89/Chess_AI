@@ -47,8 +47,12 @@ public class MinMax_I {
 
 	public MoveValue minMax(double alpha, double beta, int maxDepth, boolean isWhite) {
 
-		state = new GameState(inputState);
-		state.printBoard();
+		state = new GameState();
+		
+		for(int i = 0; i < inputState.length ; i++ ) {
+			state.setField(i, inputState[i]);
+		}
+			
 		generator = new MoveGenerator();
 
 		Evaluation evaluator = new Evaluation(state, isWhite);
@@ -72,9 +76,12 @@ public class MinMax_I {
 				MoveType currentMove = movesIterator.next();
 
 				state.newState(currentMove);
-				inputState = state.getCurrentState();
+				System.out.println("\n");
+				state.printBoard();
+				System.out.println("\n");
 				
 				returnMove = minMax(alpha, beta, maxDepth - 1, opponent(isWhite));
+				
 				state.oldState(currentMove);
 
 				if ((bestMove == null) || (bestMove.returnValue < returnMove.returnValue)) {
