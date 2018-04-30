@@ -25,123 +25,123 @@ public class MoveGenerator {
 
 			int[] WPawn = { 16, 15, 17 }; // Possible move paths
 
-		if (index >= 16 && index <= 23) {
-			special = true;
-		}
+			if (index >= 16 && index <= 23) {
+				special = true;
+			}
 
-		for (int i : WPawn) // For each piece move path
+			for (int i : WPawn) // For each piece move path
 
-			/*
-			 * Add all generated-(with relevant moveGen method)-moves to results. Takes the
-			 * move path, the index of the current position on the board, and the results.
-			 */
+				/*
+				 * Add all generated-(with relevant moveGen method)-moves to results. Takes the
+				 * move path, the index of the current position on the board, and the results.
+				 */
 
-			result = movePawn(piece, special, i, index, result);
+				result = movePawn(piece, special, i, index, result);
 
-		break;
+			break;
 
 		case (2): // Black Pawn
 
 			int[] BPawn = { -16, -15, -17 };
 
-		if (index >= 96 && index <= 103) {
-			special = true;
-		}
+			if (index >= 96 && index <= 103) {
+				special = true;
+			}
 
-		for (int i : BPawn)
-			result = movePawn(piece, special, i, index, result);
+			for (int i : BPawn)
+				result = movePawn(piece, special, i, index, result);
 
-		break;
+			break;
 
 		case (3): // White Knight
 
 			int[] WKnight = { 33, -33, 31, -31, 18, -18, -14, 14 };
 
-		for (int i : WKnight)
-			result = moveKnight(piece, i, index, result);
+			for (int i : WKnight)
+				result = moveKnight(piece, i, index, result);
 
-		break;
+			break;
 
 		case (4): // Black Knight
 
 			int[] BKnight = { 33, -33, 31, -31, 18, -18, -14, 14 };
 
-		for (int i : BKnight)
-			result = moveKnight(piece, i, index, result);
+			for (int i : BKnight)
+				result = moveKnight(piece, i, index, result);
 
-		break;
+			break;
 
 		case (5): // White Bishop
 
 			int[] WBishop = { 15, 17, -15, -17 };
 
-		for (int i : WBishop)
-			result = moveBishop(piece, i, index, result);
+			for (int i : WBishop)
+				result = moveBishop(piece, i, index, result);
 
-		break;
+			break;
 
 		case (6): // Black Bishop
 
 			int[] BBishop = { -15, -17, 15, 17 };
 
-		for (int i : BBishop)
-			result = moveBishop(piece, i, index, result);
+			for (int i : BBishop)
+				result = moveBishop(piece, i, index, result);
 
-		break;
+			break;
 
 		case (7): // White Rook
 
 			int[] WRook = { 16, -16, 1, -1 };
 
-		for (int i : WRook)
-			result = moveRook(piece, i, index, result);
+			for (int i : WRook)
+				result = moveRook(piece, i, index, result);
 
-		break;
+			break;
 
 		case (8): // Black Rook
 
 			int[] BRook = { 16, -16, 1, -1 };
 
-		for (int i : BRook)
-			result = moveRook(piece, i, index, result);
+			for (int i : BRook)
+				result = moveRook(piece, i, index, result);
 
-		break;
+			break;
 
 		case (9): // White Queen
 
 			int[] WQueen = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
-		for (int i : WQueen)
-			result = moveQueen(piece, i, index, result);
+			for (int i : WQueen)
+				result = moveQueen(piece, i, index, result);
 
-		break;
+			break;
 
 		case (10): // Black Queen
 
 			int[] BQueen = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
-		for (int i : BQueen)
-			result = moveQueen(piece, i, index, result);
+			for (int i : BQueen)
+				result = moveQueen(piece, i, index, result);
 
-		break;
+			break;
 
 		case (11): // White King
 
 			int[] WKing = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
-		for (int i : WKing)
-			result = moveKing(piece, i, index, result);
+			for (int i : WKing)
+				result = moveKing(piece, i, index, result);
 
-		break;
+			break;
 
 		case (12): // Black King
 
 			int[] BKing = { 16, -16, 1, -1, 15, 17, -15, -17 };
 
-		for (int i : BKing)
-			result = moveKing(piece, i, index, result);
+			for (int i : BKing)
+				result = moveKing(piece, i, index, result);
 
-		break;
+			break;
 
 		default:
 			break; // When null
@@ -338,20 +338,20 @@ public class MoveGenerator {
 
 	}
 
-	public ArrayList<MoveType> getAll(boolean isWhite, GameState state){
+	public ArrayList<MoveType> getAll(boolean isWhite, GameState state) {
 
 		ArrayList<MoveType> res = new ArrayList<MoveType>();
 
-		if (isWhite){
-			for (int i = 0; i < 120; i++){
-				if (state.getField(i)%2 == 1){
+		if (isWhite) {
+			for (int i = 0; i < 120; i++) {
+				if (state.getField(i) % 2 == 1) {
 					res.addAll(moveGen(i, state));
 				}
 			}
 		}
-		if (!isWhite){
-			for (int i = 0; i < 120; i++){
-				if (state.getField(i)%2 == 0 && state.getField(i) != 0){
+		if (!isWhite) {
+			for (int i = 0; i < 120; i++) {
+				if (state.getField(i) % 2 == 0 && state.getField(i) != 0) {
 					res.addAll(moveGen(i, state));
 				}
 			}
@@ -359,106 +359,109 @@ public class MoveGenerator {
 		return res;
 	}
 
-	public boolean checkThreat(MoveType boardChange, int piece){
+	public boolean checkThreat(MoveType boardChange, int piece) {
 
 		state.newState(boardChange);
-		
-		int[] direction = { 16, -16, 1, -1};
-		int[] direction2 = {15, 17, -15, -17};
+
+		int[] direction = { 16, -16, 1, -1 };
+		int[] direction2 = { 15, 17, -15, -17 };
 		int[] Knight = { 33, -33, 31, -31, 18, -18, -14, 14 };
 
-		if (piece%2 == 1){
+		if (piece % 2 == 1) {
 
 			if (!state.outOfBoard(state.getWKingPos() + 15))
-				if (state.getField(state.getWKingPos() + 15) == 2){
+				if (state.getField(state.getWKingPos() + 15) == 2) {
 					state.oldState(boardChange);
 					return true;
 				}
 
 			if (!state.outOfBoard(state.getWKingPos() + 17))
-				if (state.getField(state.getWKingPos() + 17) == 2){
-					state.oldState(boardChange);
-					return true;
-				}
-			for (int i : Knight)
-				if (!state.outOfBoard(state.getWKingPos() + i))                   
-					if (state.getField(state.getWKingPos() + i) == 4){
-						state.oldState(boardChange);
-						return true;
-					}
-		}          
-
-		if (piece%2 == 0){
-
-			if (!state.outOfBoard(state.getWKingPos() - 15))
-				if (state.getField(state.getWKingPos() - 15) == 1){
-					state.oldState(boardChange);
-					return true;
-				}
-
-			if (!state.outOfBoard(state.getWKingPos() - 17))
-				if (state.getField(state.getWKingPos() - 17) == 1){
+				if (state.getField(state.getWKingPos() + 17) == 2) {
 					state.oldState(boardChange);
 					return true;
 				}
 			for (int i : Knight)
 				if (!state.outOfBoard(state.getWKingPos() + i))
-					if (state.getField(state.getWKingPos() + i) == 3){
+					if (state.getField(state.getWKingPos() + i) == 4) {
 						state.oldState(boardChange);
 						return true;
 					}
 		}
 
-		for (int i : direction){
+		if (piece % 2 == 0) {
 
-			if (piece%2 == 1)              
-				if (kingSpotting(state.getWKingPos(), i, piece, state)){
+			if (!state.outOfBoard(state.getWKingPos() - 15))
+				if (state.getField(state.getWKingPos() - 15) == 1) {
 					state.oldState(boardChange);
 					return true;
 				}
 
-			if (piece%2 == 0)
-				if (kingSpotting(state.getBKingPos(), i, piece, state)){
+			if (!state.outOfBoard(state.getWKingPos() - 17))
+				if (state.getField(state.getWKingPos() - 17) == 1) {
+					state.oldState(boardChange);
+					return true;
+				}
+			for (int i : Knight)
+				if (!state.outOfBoard(state.getWKingPos() + i))
+					if (state.getField(state.getWKingPos() + i) == 3) {
+						state.oldState(boardChange);
+						return true;
+					}
+		}
+
+		for (int i : direction) {
+
+			if (piece % 2 == 1)
+				if (kingSpotting(state.getWKingPos(), i, piece, state)) {
+					state.oldState(boardChange);
+					return true;
+				}
+
+			if (piece % 2 == 0)
+				if (kingSpotting(state.getBKingPos(), i, piece, state)) {
 					state.oldState(boardChange);
 					return true;
 				}
 		}
 
-		for (int i : direction2){
+		for (int i : direction2) {
 
-			if (piece%2 == 1)
-				if (kingSpotting(state.getWKingPos(), i, piece, state)){
+			if (piece % 2 == 1)
+				if (kingSpotting(state.getWKingPos(), i, piece, state)) {
 					state.oldState(boardChange);
 					return true;
 				}
-			if (piece%2 == 0)
-				if (kingSpotting(state.getBKingPos(), i, piece, state)){
+			if (piece % 2 == 0)
+				if (kingSpotting(state.getBKingPos(), i, piece, state)) {
 					state.oldState(boardChange);
 					return true;
 				}
 		}
+
+		state.oldState(boardChange);
 		return false;
 	}
 
-	private boolean kingSpotting(int index, int move, int piece, GameState state){
-		if (!state.outOfBoard(index + move)){
-			if(state.getField(index + move) == 0)
+	private boolean kingSpotting(int index, int move, int piece, GameState state) {
+		if (!state.outOfBoard(index + move)) {
+			if (state.getField(index + move) == 0)
 				return kingSpotting(index + move, move, piece, state);
 
-			if(state.getField(index + move)%2 != piece%2 ){
-				switch(state.getField(index + move)){
+			if (state.getField(index + move) % 2 != piece % 2) {
+				switch (state.getField(index + move)) {
 
-				case(9) :
-				case(10) :
-					if(move == 16 || move == -16 || move == 1 || move == -1 || move == 15 || move == -15 || move == 17 || move == -17)
+				case (9):
+				case (10):
+					if (move == 16 || move == -16 || move == 1 || move == -1 || move == 15 || move == -15 || move == 17
+							|| move == -17)
 						return true;
-				case(7) :   
-				case(8) :
-					if(move == 16 || move == -16 || move == 1 || move == -1)
+				case (7):
+				case (8):
+					if (move == 16 || move == -16 || move == 1 || move == -1)
 						return true;
-				case(5) :
-				case(6) :
-					if(move == 15 || move == -15 || move == 17 || move == -17)
+				case (5):
+				case (6):
+					if (move == 15 || move == -15 || move == 17 || move == -17)
 						return true;
 				}
 
@@ -468,7 +471,6 @@ public class MoveGenerator {
 
 		return false;
 	}
-
 
 	public ArrayList<MoveType> getResult() {
 		return result;
@@ -478,6 +480,4 @@ public class MoveGenerator {
 		this.result = result;
 	}
 
-
 }
-
