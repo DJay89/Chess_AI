@@ -48,6 +48,7 @@ public class MinMax_I {
 	public MoveValue minMax(double alpha, double beta, int maxDepth, boolean isWhite) {
 
 		state = new GameState(inputState);
+		state.printBoard();
 		generator = new MoveGenerator();
 
 		Evaluation evaluator = new Evaluation(state, isWhite);
@@ -71,7 +72,6 @@ public class MinMax_I {
 				MoveType currentMove = movesIterator.next();
 
 				state.newState(currentMove);
-				state.printBoard();
 				inputState = state.getCurrentState();
 				
 				returnMove = minMax(alpha, beta, maxDepth - 1, opponent(isWhite));

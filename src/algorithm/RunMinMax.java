@@ -11,8 +11,8 @@ public class RunMinMax {
 		
 		int[] inputState = state.getCurrentState();
 		
-		GameState testInputState = new GameState(inputState);
-		testInputState.printBoard();
+//		GameState testInputState = new GameState(inputState);
+//		testInputState.printBoard();
 		
 		MinMax_I algo_i = new MinMax_I(inputState);
 		MinMax_II  algo_ii = new MinMax_II();
@@ -22,14 +22,14 @@ public class RunMinMax {
 		int maxDepth = 4;
 		boolean isWhite = true;
 		
-//		MoveValue bestMove;
-//		
-//		bestMove = algo_i.minMax(alpha, beta, maxDepth, isWhite);
-//		
-//		System.err.println(bestMove.returnMove.getContent() + ": " + bestMove.returnMove.getOldPos() + " -> " + bestMove.returnMove.getNewPos());
-//		System.err.println("Value: " + bestMove.returnValue);
+		MoveValue bestMove;
 		
-		algo_ii.minMax(alpha, beta, maxDepth, isWhite);
+		bestMove = algo_i.minMax(alpha, beta, maxDepth, isWhite);
+		
+		System.err.println(bestMove.returnMove.getContent() + ": " + bestMove.returnMove.getOldPos() + " -> " + bestMove.returnMove.getNewPos());
+		System.err.println("Value: " + bestMove.returnValue);
+		
+//		algo_ii.minMax(alpha, beta, maxDepth, isWhite);
 
 	}
 
