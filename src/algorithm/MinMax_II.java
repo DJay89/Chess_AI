@@ -8,7 +8,7 @@ import game_logic.GameState;
 import game_logic.MoveGenerator;
 import game_logic.MoveType;
 
-public class AlternativeMinMax {
+public class MinMax_II {
 	private class MoveValue {
 	    public MoveType move;
 	    public double value;

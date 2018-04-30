@@ -16,6 +16,12 @@ public class GameState {
 	public GameState() {
 		initializeBoard();
 	}
+	
+	public GameState(int[] inputState) {
+		
+		currentState = inputState;
+		
+	}
 
 	public void newState(MoveType move) {
 
