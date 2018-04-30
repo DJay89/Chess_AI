@@ -52,6 +52,7 @@ public class AlternativeMinMax {
 	    while (movesIterator.hasNext()) {
 	        MoveType currentMove = movesIterator.next();
 	        System.out.println("CurrentMove = " + currentMove.getPiece() + ": " + currentMove.getOldPos() + " -> " + currentMove.getNewPos());
+	        
 	        state.newState(currentMove);
 	        moveValue = minMax(alpha, beta, maxDepth - 1, opponent(isWhite));
 	        state.oldState(currentMove);

@@ -16,11 +16,12 @@ public class MinMax {
 
 	    public MoveValue() {
 	        returnValue = 0;
+	        returnMove = null;
 	    }
 
-	    public MoveValue(double returnValue) {
-	        this.returnValue = returnValue;
-	    }
+//	    public MoveValue(double returnValue) {
+//	        this.returnValue = returnValue;
+//	    }
 
 	    public MoveValue(double returnValue, MoveType returnMove) {
 	        this.returnValue = returnValue;
@@ -41,6 +42,9 @@ public class MinMax {
 	
 	public MoveValue minMax(double alpha, double beta, int maxDepth, boolean isWhite) {       
 	    
+		GameState state = new GameState();
+		MoveGenerator generator = new MoveGenerator();
+		
 		Evaluation evaluator = new Evaluation(state, isWhite);
 		
 	    ArrayList<MoveType> moves = generator.getAll(isWhite, state);
@@ -51,7 +55,7 @@ public class MinMax {
 	   
 	    if (maxDepth == 0 /*|| state.isGameOver()*/) {            
 	        value = evaluator.evaluateState();            
-	        return new MoveValue(value);
+	        return new MoveValue();
 	    }
 	    
 	    MoveValue bestMove = null;
