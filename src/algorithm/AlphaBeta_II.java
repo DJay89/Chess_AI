@@ -8,7 +8,7 @@ import game_logic.GameState;
 import game_logic.MoveGenerator;
 import game_logic.MoveType;
 
-public class MinMax_II {
+public class AlphaBeta_II {
 	private class MoveValue {
 	    public MoveType move;
 	    public double value;
@@ -30,7 +30,7 @@ public class MinMax_II {
 
 	}
 	
-	protected MoveValue minMax(double alpha, double beta, int maxDepth, boolean isWhite) {
+	protected MoveValue alphaBeta(double alpha, double beta, int maxDepth, boolean isWhite) {
 	    
 		GameState state = new GameState();
 		MoveGenerator generator = new MoveGenerator();
@@ -54,7 +54,7 @@ public class MinMax_II {
 	        System.out.println("CurrentMove = " + currentMove.getPiece() + ": " + currentMove.getOldPos() + " -> " + currentMove.getNewPos());
 	        
 	        state.newState(currentMove);
-	        moveValue = minMax(alpha, beta, maxDepth - 1, opponent(isWhite));
+	        moveValue = alphaBeta(alpha, beta, maxDepth - 1, opponent(isWhite));
 	        state.oldState(currentMove);
 	        
 	        if (isMaximizer) {

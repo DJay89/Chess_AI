@@ -8,7 +8,7 @@ import game_logic.GameState;
 import game_logic.MoveGenerator;
 import game_logic.MoveType;
 
-public class MinMax_I {
+public class AlphaBeta_I {
 
 	public class MoveValue {
 
@@ -38,17 +38,15 @@ public class MinMax_I {
 
 	private int[] inputState;
 	
-	public MinMax_I(int[] inputState) {
+	public AlphaBeta_I(int[] inputState) {
 		this.inputState = inputState;
 	}
 	
-	private GameState state;
+	private GameState state = new GameState();
 	private MoveGenerator generator;
 
-	public MoveValue minMax(double alpha, double beta, int maxDepth, boolean isWhite) {
+	public MoveValue alphaBeta(double alpha, double beta, int maxDepth, boolean isWhite) {
 
-		state = new GameState();
-		
 		for(int i = 0; i < inputState.length ; i++ ) {
 			state.setField(i, inputState[i]);
 		}
@@ -80,7 +78,7 @@ public class MinMax_I {
 				state.printBoard();
 				System.out.println("\n");
 				
-				returnMove = minMax(alpha, beta, maxDepth - 1, opponent(isWhite));
+				returnMove = alphaBeta(alpha, beta, maxDepth - 1, opponent(isWhite));
 				
 				state.oldState(currentMove);
 
@@ -108,7 +106,7 @@ public class MinMax_I {
 						currentMove.getPiece() + ": " + currentMove.getOldPos() + "->" + currentMove.getNewPos());
 
 				state.newState(currentMove);
-				returnMove = minMax(alpha, beta, maxDepth - 1, opponent(isWhite));
+				returnMove = alphaBeta(alpha, beta, maxDepth - 1, opponent(isWhite));
 				state.oldState(currentMove);
 
 				if ((bestMove == null) || (bestMove.returnValue > returnMove.returnValue)) {

@@ -501,10 +501,8 @@ public class MoveGenerator {
 			if (state.getField(index + move) % 2 != piece % 2) {
 				switch (state.getField(index + move)) {
 
-				case (9):
-				case (10):
-					if (move == 16 || move == -16 || move == 1 || move == -1 || move == 15 || move == -15 || move == 17
-							|| move == -17)
+				case (9):	case (10):
+					if (move == 16 || move == -16 || move == 1 || move == -1 || move == 15 || move == -15 || move == 17	|| move == -17)
 						return true;
 				case (7):
 				case (8):

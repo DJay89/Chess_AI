@@ -1,6 +1,6 @@
 package algorithm;
 
-import algorithm.MinMax_I.MoveValue;
+import algorithm.AlphaBeta_I.MoveValue;
 import game_logic.GameState;
 
 public class RunMinMax {
@@ -14,8 +14,8 @@ public class RunMinMax {
 //		GameState testInputState = new GameState(inputState);
 //		testInputState.printBoard();
 		
-		MinMax_I algo_i = new MinMax_I(inputState);
-		MinMax_II  algo_ii = new MinMax_II();
+		AlphaBeta_I algo_i = new AlphaBeta_I(inputState);
+		AlphaBeta_II  algo_ii = new AlphaBeta_II();
 		
 		double alpha = -999999;
 		double beta = 999999;
@@ -24,7 +24,7 @@ public class RunMinMax {
 		
 		MoveValue bestMove;
 		
-		bestMove = algo_i.minMax(alpha, beta, maxDepth, isWhite);
+		bestMove = algo_i.alphaBeta(alpha, beta, maxDepth, isWhite);
 		
 		System.err.println(bestMove.returnMove.getContent() + ": " + bestMove.returnMove.getOldPos() + " -> " + bestMove.returnMove.getNewPos());
 		System.err.println("Value: " + bestMove.returnValue);
