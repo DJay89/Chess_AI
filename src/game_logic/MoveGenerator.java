@@ -504,12 +504,10 @@ public class MoveGenerator {
 				case (9):	case (10):
 					if (move == 16 || move == -16 || move == 1 || move == -1 || move == 15 || move == -15 || move == 17	|| move == -17)
 						return true;
-				case (7):
-				case (8):
+				case (7):	case (8):
 					if (move == 16 || move == -16 || move == 1 || move == -1)
 						return true;
-				case (5):
-				case (6):
+				case (5):	case (6):
 					if (move == 15 || move == -15 || move == 17 || move == -17)
 						return true;
 				}

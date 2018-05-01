@@ -8,6 +8,11 @@ public class AlphaBetaController extends Thread{
 	private boolean isWhite;
 	private MoveType bestMove;
 
+	MoveGenerator mg = new MoveGenerator();
+	ArrayList<MoveType> validMoves;
+	ArrayList<MoveData> firstMoves;
+	AlphaBeta ab;
+
 	public AlphaBetaController(GameState gameState, boolean isWhite) {
 		this.gameState = gameState;
 		this.isWhite = isWhite;
@@ -18,25 +23,29 @@ public class AlphaBetaController extends Thread{
 
 		int i = 1;
 		while(true) {
-			AlphaBeta ab = new AlphaBeta(gameState, i++, isWhite);
-			MoveGenerator mg = new MoveGenerator();
-			ArrayList<MoveType> validMoves = mg.getAll(isWhite, gameState);
-			ArrayList<MoveData> firstMoves = new ArrayList<MoveData>();
+			if (isInterrupted())
+				break;
+			ab = new AlphaBeta(gameState, i++, isWhite);
+			validMoves = mg.getAll(isWhite, gameState);
+			firstMoves = new ArrayList<MoveData>();
 
 			System.out.println(validMoves.size());
-			
+
 			for(int j = 0; j < validMoves.size(); j++) {
-//				gameState.newState(validMoves.get(j));
+				if (isInterrupted())
+					break;
+				gameState.newState(validMoves.get(j));
 				firstMoves.add(new MoveData(ab.runAlphaBeta(-100000, 100000, 1, validMoves.get(j)), validMoves.get(j)));
-//				gameState.oldState(validMoves.get(j));
+				gameState.oldState(validMoves.get(j));
 			}
 
 			double tempMAX = 0;
 
 			System.out.println("firstMoves.size(): " + firstMoves.size());
-			System.out.println("\n\n");
-			gameState.printBoard();
-			System.out.println("\n");
+			//			System.out.println("\n\n");
+			//			gameState.printBoard();
+			//			System.out.println("\n");
+
 			for(int h = 0; h < firstMoves.size(); h++) {
 				if(firstMoves.get(h).getValue() > tempMAX) {
 					tempMAX = firstMoves.get(h).getValue();
@@ -47,10 +56,9 @@ public class AlphaBetaController extends Thread{
 		}
 
 	}
-	
+
 	public MoveType getBestMove() {
 		return bestMove;
 	}
-
 
 }

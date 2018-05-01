@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerController extends Thread {
-	private static boolean shutdown;
+	public static boolean shutdown;
 	private int turnTime;
 	
 	
@@ -15,13 +15,8 @@ public class TimerController extends Thread {
 	
 	// Now start the turn
 	public void run() {
+		shutdown = false;
 		this.shutdownTimer();
-		
-		int i = 0;
-		while (!shutdown) {
-//			System.out.println(i);
-			i++;
-		}
 	}
 	
 	// stop the turn
