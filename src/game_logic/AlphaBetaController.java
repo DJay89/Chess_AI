@@ -21,15 +21,20 @@ public class AlphaBetaController extends Thread{
 	@Override
 	public void run() {
 
+		System.out.println("ABC: Start");
+
 		int i = 1;
 		while(true) {
-			if (isInterrupted())
+			if (Thread.interrupted()){
+				System.out.println("Break");
 				break;
+			}
+
 			ab = new AlphaBeta(gameState, i++, isWhite);
 			validMoves = mg.getAll(isWhite, gameState);
 			firstMoves = new ArrayList<MoveData>();
 
-			System.out.println(validMoves.size());
+			//			System.out.println(validMoves.size());
 
 			for(int j = 0; j < validMoves.size(); j++) {
 				if (isInterrupted())
@@ -41,7 +46,7 @@ public class AlphaBetaController extends Thread{
 
 			double tempMAX = 0;
 
-			System.out.println("firstMoves.size(): " + firstMoves.size());
+			//		System.out.println("firstMoves.size(): " + firstMoves.size());
 			//			System.out.println("\n\n");
 			//			gameState.printBoard();
 			//			System.out.println("\n");

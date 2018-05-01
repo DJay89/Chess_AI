@@ -168,8 +168,10 @@ public class MoveGenerator {
 							// Create and add MoveType
 							test = new MoveType(index + (2 * move), index, special, piece,
 									state.getField(index + move));
+							state.newState(test);
 							if (!checkThreat(test, piece))
 								result.add(test);
+							state.oldState(test);
 						}
 					}
 				}
@@ -178,8 +180,10 @@ public class MoveGenerator {
 				if (state.getField(index + move) == 0) {
 					// Create and add MoveType
 					test = new MoveType(index + move, index, special, piece, state.getField(index + move));
+					state.newState(test);
 					if (!checkThreat(test, piece))
 						result.add(test);
+					state.oldState(test);
 				}
 			}
 
@@ -190,8 +194,10 @@ public class MoveGenerator {
 					if (piece % 2 != 0) {
 						if (state.getField(index + move) % 2 == 0) {
 							test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+							state.newState(test);
 							if (!checkThreat(test, piece))
 								result.add(test);
+							state.newState(test);
 						}
 					}
 				}
@@ -200,8 +206,10 @@ public class MoveGenerator {
 					if (piece % 2 == 0) {
 						if (state.getField(index + move) % 2 != 0) {
 							test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+							state.newState(test);
 							if (!checkThreat(test, piece))
 								result.add(test);
+							state.oldState(test);
 						}
 					}
 				}
@@ -219,16 +227,20 @@ public class MoveGenerator {
 
 			if (state.getField(index + move) == 0) {
 				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+				state.newState(test);
 				if (!checkThreat(test, piece))
 					result.add(test);
+				state.oldState(test);
 			}
 
 			if (state.getField(index + move) != 0) {
 				if (piece % 2 != 0) {
 					if (state.getField(index + move) % 2 == 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -237,8 +249,10 @@ public class MoveGenerator {
 				if (piece % 2 == 0) {
 					if (state.getField(index + move) % 2 != 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -253,17 +267,21 @@ public class MoveGenerator {
 
 			if (state.getField(index + move) == 0) {
 				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+				state.newState(test);
 				if (!checkThreat(test, piece))
 					result.add(test);
-				moveBishop(piece, move, index + move, result);
+				state.oldState(test);
+				moveBishop(piece, move+move, index, result);
 			}
 
 			if (state.getField(index + move) != 0) {
 				if (piece % 2 != 0) {
 					if (state.getField(index + move) % 2 == 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -272,8 +290,10 @@ public class MoveGenerator {
 				if (piece % 2 == 0) {
 					if (state.getField(index + move) % 2 != 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -289,17 +309,21 @@ public class MoveGenerator {
 
 			if (state.getField(index + move) == 0) {
 				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+				state.newState(test);
 				if (!checkThreat(test, piece))
 					result.add(test);
-				moveRook(piece, move, index + move, result);
+				state.oldState(test);
+				moveRook(piece, move+move, index, result);
 			}
 
 			if (state.getField(index + move) != 0) {
 				if (piece % 2 != 0) {
 					if (state.getField(index + move) % 2 == 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -308,8 +332,10 @@ public class MoveGenerator {
 				if (piece % 2 == 0) {
 					if (state.getField(index + move) % 2 != 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -325,17 +351,21 @@ public class MoveGenerator {
 
 			if (state.getField(index + move) == 0) {
 				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+				state.newState(test);
 				if (!checkThreat(test, piece))
 					result.add(test);
-				moveQueen(piece, move, index + move, result);
+				state.oldState(test);
+				moveQueen(piece, move+move, index, result);
 			}
 
 			if (state.getField(index + move) != 0) {
 				if (piece % 2 != 0) {
 					if (state.getField(index + move) % 2 == 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -344,8 +374,10 @@ public class MoveGenerator {
 				if (piece % 2 == 0) {
 					if (state.getField(index + move) % 2 != 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -361,16 +393,20 @@ public class MoveGenerator {
 
 			if (state.getField(index + move) == 0) {
 				test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+				state.newState(test);
 				if (!checkThreat(test, piece))
 					result.add(test);
+				state.oldState(test);
 			}
 
 			if (state.getField(index + move) != 0) {
 				if (piece % 2 != 0) {
 					if (state.getField(index + move) % 2 == 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -379,8 +415,10 @@ public class MoveGenerator {
 				if (piece % 2 == 0) {
 					if (state.getField(index + move) % 2 != 0) {
 						test = new MoveType(index + move, index, false, piece, state.getField(index + move));
+						state.newState(test);
 						if (!checkThreat(test, piece))
 							result.add(test);
+						state.oldState(test);
 					}
 				}
 			}
@@ -413,7 +451,7 @@ public class MoveGenerator {
 
 	public boolean checkThreat(MoveType boardChange, int piece) {
 
-		state.newState(boardChange);
+		//state.newState(boardChange);
 
 		int[] direction = { 16, -16, 1, -1, 15, 17, -15, -17 };
 		int[] Knight = { 33, -33, 31, -31, 18, -18, -14, 14 };
@@ -422,40 +460,40 @@ public class MoveGenerator {
 
 			if (!state.outOfBoard(state.getWKingPos() + 15))
 				if (state.getField(state.getWKingPos() + 15) == 2) {
-					state.oldState(boardChange);
+					//state.oldState(boardChange);
 					return true;
 				}
 
 			if (!state.outOfBoard(state.getWKingPos() + 17))
 				if (state.getField(state.getWKingPos() + 17) == 2) {
-					state.oldState(boardChange);
+					//state.oldState(boardChange);
 					return true;
 				}
 			for (int i : Knight)
 				if (!state.outOfBoard(state.getWKingPos() + i))
 					if (state.getField(state.getWKingPos() + i) == 4) {
-						state.oldState(boardChange);
+						//state.oldState(boardChange);
 						return true;
 					}
 		}
 
 		if (piece % 2 == 0) {
 
-			if (!state.outOfBoard(state.getWKingPos() - 15))
-				if (state.getField(state.getWKingPos() - 15) == 1) {
-					state.oldState(boardChange);
+			if (!state.outOfBoard(state.getBKingPos() - 15))
+				if (state.getField(state.getBKingPos() - 15) == 1) {
+					//state.oldState(boardChange);
 					return true;
 				}
 
-			if (!state.outOfBoard(state.getWKingPos() - 17))
-				if (state.getField(state.getWKingPos() - 17) == 1) {
-					state.oldState(boardChange);
+			if (!state.outOfBoard(state.getBKingPos() - 17))
+				if (state.getField(state.getBKingPos() - 17) == 1) {
+					//state.oldState(boardChange);
 					return true;
 				}
 			for (int i : Knight)
-				if (!state.outOfBoard(state.getWKingPos() + i))
-					if (state.getField(state.getWKingPos() + i) == 3) {
-						state.oldState(boardChange);
+				if (!state.outOfBoard(state.getBKingPos() + i))
+					if (state.getField(state.getBKingPos() + i) == 3) {
+						//state.oldState(boardChange);
 						return true;
 					}
 		}
@@ -464,13 +502,13 @@ public class MoveGenerator {
 
 			if (piece % 2 == 1)
 				if (kingSpotting(state.getWKingPos(), i, piece, state)) {
-					state.oldState(boardChange);
+					//state.oldState(boardChange);
 					return true;
 				}
 
 			if (piece % 2 == 0)
 				if (kingSpotting(state.getBKingPos(), i, piece, state)) {
-					state.oldState(boardChange);
+				//	state.oldState(boardChange);
 					return true;
 				}
 		}
@@ -489,7 +527,7 @@ public class MoveGenerator {
 		// }
 		// }
 
-		state.oldState(boardChange);
+		//state.oldState(boardChange);
 		return false;
 	}
 
