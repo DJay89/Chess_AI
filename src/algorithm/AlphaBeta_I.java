@@ -43,15 +43,13 @@ public class AlphaBeta_I {
 	}
 	
 	private GameState state = new GameState();
-	private MoveGenerator generator;
+	private MoveGenerator generator = new MoveGenerator();
 
 	public MoveValue alphaBeta(double alpha, double beta, int maxDepth, boolean isWhite) {
 
 		for(int i = 0; i < inputState.length ; i++ ) {
 			state.setField(i, inputState[i]);
 		}
-			
-		generator = new MoveGenerator();
 
 		Evaluation evaluator = new Evaluation(state, isWhite);
 
@@ -72,7 +70,9 @@ public class AlphaBeta_I {
 		if (isMaximizer) {
 			while (movesIterator.hasNext()) {
 				MoveType currentMove = movesIterator.next();
-
+				System.out.println(
+						currentMove.getPiece() + ": " + currentMove.getOldPos() + "->" + currentMove.getNewPos());
+				
 				state.newState(currentMove);
 				System.out.println("\n");
 				state.printBoard();
@@ -106,6 +106,11 @@ public class AlphaBeta_I {
 						currentMove.getPiece() + ": " + currentMove.getOldPos() + "->" + currentMove.getNewPos());
 
 				state.newState(currentMove);
+				
+				System.out.println("\n");
+				state.printBoard();
+				System.out.println("\n");
+				
 				returnMove = alphaBeta(alpha, beta, maxDepth - 1, opponent(isWhite));
 				state.oldState(currentMove);
 

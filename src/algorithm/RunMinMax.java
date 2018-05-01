@@ -19,7 +19,7 @@ public class RunMinMax {
 		
 		double alpha = -999999;
 		double beta = 999999;
-		int maxDepth = 4;
+		int maxDepth = 2;
 		boolean isWhite = true;
 		
 		MoveValue bestMove;
@@ -29,7 +29,7 @@ public class RunMinMax {
 		System.err.println(bestMove.returnMove.getContent() + ": " + bestMove.returnMove.getOldPos() + " -> " + bestMove.returnMove.getNewPos());
 		System.err.println("Value: " + bestMove.returnValue);
 		
-//		algo_ii.minMax(alpha, beta, maxDepth, isWhite);
+//		algo_ii.alphaBeta(alpha, beta, maxDepth, isWhite);
 
 	}
 
