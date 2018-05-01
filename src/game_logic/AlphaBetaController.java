@@ -23,10 +23,13 @@ public class AlphaBetaController extends Thread{
 
 		System.out.println("ABC: Start");
 
+		Thread.interrupted();
+		
 		int i = 1;
 		while(true) {
+			
 			if (Thread.interrupted()){
-				System.out.println("Break");
+				System.out.println("ABC: Stop");
 				break;
 			}
 
