@@ -55,11 +55,11 @@ public class FieldTranslator {
 	
 	
 	// Main class for testing with examples - Shall be deleted upon usage
-	public static void main(String[] args) {
-		FieldTranslator translator = new FieldTranslator();
-		String inputString = "A5";
-		int inputInteger = 83;
-		System.out.println("Coordinate: " + inputString + " has index " + translator.getFieldCoordinate(inputString));
-		System.out.println("Field: " + inputInteger + " has field name " + translator.getFieldName(inputInteger));
-	}
+//	public static void main(String[] args) {
+//		FieldTranslator translator = new FieldTranslator();
+//		String inputString = "A5";
+//		int inputInteger = 83;
+//		System.out.println("Coordinate: " + inputString + " has index " + translator.getFieldCoordinate(inputString));
+//		System.out.println("Field: " + inputInteger + " has field name " + translator.getFieldName(inputInteger));
+//	}
 }

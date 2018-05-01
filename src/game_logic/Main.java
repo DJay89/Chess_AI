@@ -13,6 +13,10 @@ public class Main {
 
 		Scanner playerInput = new Scanner(System.in);
 
+		// Translate input
+		FieldTranslator translator = new FieldTranslator();
+		
+		
 		boolean missingInput = true;
 
 		//	System.out.println("Do you want to play /white, /black or /random ?");
@@ -37,10 +41,14 @@ public class Main {
 		while(gameRunning) {
 			System.out.println("Player has turn");
 			System.out.println("oldpos:");
-			int oldPos = playerInput.nextInt();
+			//int oldPos = playerInput.nextInt();
+			String oldPos = playerInput.next();
+			int oldPosIndex = translator.getFieldCoordinate(oldPos);
 			System.out.println("newpos:");
-			int newPos = playerInput.nextInt();
-			gameState.newState(new MoveType(newPos, oldPos, false, gameState.getField(oldPos), gameState.getField(newPos)));
+			// int newPos = playerInput.nextInt();
+			String newPos = playerInput.next();
+			int newPosIndex = translator.getFieldCoordinate(newPos);
+			gameState.newState(new MoveType(newPosIndex, oldPosIndex, false, gameState.getField(oldPosIndex), gameState.getField(newPosIndex)));
 			System.out.println();
 			System.out.println();
 			gameState.printBoard();
